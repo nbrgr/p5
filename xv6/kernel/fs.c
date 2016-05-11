@@ -417,6 +417,13 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   if(off + n > ip->size)
     n = ip->size - off;
 
+  if(ip->type == T_SMALLFILE)
+  {
+    char* data = (char*)ip->addrs;
+    memmove(dst, data + off, n);
+    return n;
+  }
+
   for(tot=0; tot<n; tot+=m, off+=m, dst+=m){
     uint sector_number = bmap(ip, off/BSIZE);
     if(sector_number == 0){ //failed to find block
@@ -444,10 +451,25 @@ writei(struct inode *ip, char *src, uint off, uint n)
     return devsw[ip->major].write(ip, src, n);
   }
 
-  if(off > ip->size || off + n < off)
-    return -1;
-  if(off + n > MAXFILE*BSIZE)
-    n = MAXFILE*BSIZE - off;
+  if(ip->type == T_FILE)
+  {
+    if(off > ip->size || off + n < off)
+      return -1;
+    if(off + n > MAXFILE*BSIZE)
+      n = MAXFILE*BSIZE - off;
+  }
+
+  if(ip->type == T_SMALLFILE)
+  {
+    if(off > ip->size || off + n < off)
+      return -1;
+    if(off + n > sizeof(uint) * (NDIRECT + 1))
+      n = (sizeof(uint) * (NDIRET + 1)) - off;
+
+    char* data = (char*)ip->addrs;
+    memmove(data + off, src, n);
+    return n;
+  }
 
   for(tot=0; tot<n; tot+=m, off+=m, src+=m){
     uint sector_number = bmap(ip, off/BSIZE);
