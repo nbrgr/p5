@@ -406,8 +406,8 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   uint tot, m;
   struct buf *bp;
 
-  cprintf("read size n: %d\n", n);
-  cprintf("file size: %d\n", ip->size);
+  
+  
 
   if(ip->type == T_DEV){
     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].read)
@@ -420,13 +420,13 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   if(off + n > ip->size)
     n = ip->size - off;
 
-  cprintf("read size n: %d\n", n);
+  
 
   if(ip->type == T_SMALLFILE)
   {
     char* data = (char*)ip->addrs;
-    cprintf("data: %d, addr:%d\n", data, ip->addrs);
-    cprintf("offset: %d, data + off: %d, read size n: %d\n", off, data + off, n);
+    
+    
     memmove(dst, data + off, n);
   }
   else 
@@ -476,8 +476,8 @@ writei(struct inode *ip, char *src, uint off, uint n)
       n = (sizeof(uint) * (NDIRECT + 1)) - off;
 
     char* data = (char*)ip->addrs;
-    cprintf("src: %s\n", src);
-    cprintf("write size: %d\n", n);
+    
+    
     memmove(data + off, src, n);
     off += n;
   }
@@ -498,9 +498,9 @@ writei(struct inode *ip, char *src, uint off, uint n)
       brelse(bp);
     }
   }
-  cprintf("Printing n again: %d\n", n);
+  
   if(n > 0 && off > ip->size){
-    cprintf("Updating file size\n");
+    
     ip->size = off;
     iupdate(ip);
   }
