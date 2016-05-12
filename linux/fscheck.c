@@ -51,12 +51,13 @@ int main(int argc, char* argv[]) {
 
 	blocks = (struct block*)map; // Converts our mapping into an array of blocks;
 
+        fprintf(stderr, "converted map to block\n");
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
-
+        
 	ninodes = superblock->ninodes; // Gets the number of inodes in the system;
 
 	ninodeblocks = ninodes / IPB; // Computes the number of inode blocks there are;
-
+        fprintf(stderr, "computed number of inode blocks\n");
 	bitmaps = BBLOCK(0, ninodes); // Finds the first block number of the bitmaps 
 
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
