@@ -10,7 +10,7 @@
 
 #define ROOTINO 1  // root i-number
 #define BSIZE 512  // block size
-
+#define NDIRECT 12
 
 // On-disk inode structure
 struct dinode {
@@ -46,7 +46,6 @@ struct superblock {
 // Directory is a file containing a sequence of dirent structures.
 #define DIRSIZ 14
 
-#define NDIRECT 12
 #define NINDIRECT (BSIZE / sizeof(uint))
 #define MAXFILE (NDIRECT + NINDIRECT)
 
