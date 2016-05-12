@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 
 	fsize = fstats.st_size;
 
-	map = mmap(NULL, fsize, PROT_READ | PROT_WRITE, 0, fs, 0);
+	map = mmap(NULL, fsize, PROT_READ | PROT_WRITE, MAP_PRIVATE, fs, 0);
 
 	if(map == MAP_FAILED)
 	{
