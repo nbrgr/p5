@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 
 	if(map == MAP_FAILED)
 	{
-		fpritnf(stderr, "Failed to map\n");
+		fprintf(stderr, "Failed to map\n");
 		return -1;
 	}
 
