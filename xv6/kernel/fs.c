@@ -453,6 +453,7 @@ writei(struct inode *ip, char *src, uint off, uint n)
   uint tot, m;
   struct buf *bp;
 
+  cprintf("offset: %d\n", off);
 
   if(ip->type == T_DEV){
     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].write)
@@ -479,8 +480,8 @@ writei(struct inode *ip, char *src, uint off, uint n)
     cprintf("src: %s\n", src);
     cprintf("write size: %d\n", n);
     memmove(data + off, src, n);
-    if(n > ip->size)
-      ip->size += n;
+    if(n + off > ip->size)
+      ip->size += ;
   }
 
   if(ip->type != T_SMALLFILE)
