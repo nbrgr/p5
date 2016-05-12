@@ -365,23 +365,35 @@ itrunc(struct inode *ip)
   struct buf *bp;
   uint *a;
 
-  for(i = 0; i < NDIRECT; i++){
-    if(ip->addrs[i]){
-      bfree(ip->dev, ip->addrs[i]);
-      ip->addrs[i] = 0;
+  if(ip->type != T_SMALLFILE)
+  {  
+    for(i = 0; i < NDIRECT; i++){
+      if(ip->addrs[i]){
+        bfree(ip->dev, ip->addrs[i]);
+        ip->addrs[i] = 0;
+      }
+    }
+    
+    if(ip->addrs[NDIRECT]){
+      bp = bread(ip->dev, ip->addrs[NDIRECT]);
+      a = (uint*)bp->data;
+      for(j = 0; j < NINDIRECT; j++){
+        if(a[j])
+          bfree(ip->dev, a[j]);
+      }
+      brelse(bp);
+      bfree(ip->dev, ip->addrs[NDIRECT]);
+      ip->addrs[NDIRECT] = 0;
     }
   }
-  
-  if(ip->addrs[NDIRECT]){
-    bp = bread(ip->dev, ip->addrs[NDIRECT]);
-    a = (uint*)bp->data;
-    for(j = 0; j < NINDIRECT; j++){
-      if(a[j])
-        bfree(ip->dev, a[j]);
+
+  if(ip->type == T_SMALLFILE)
+  {
+    for(i = 0; i < NDIRECT; i++){
+      if(ip->addrs[i]){
+        ip->addrs[i] = 0;
+      }
     }
-    brelse(bp);
-    bfree(ip->dev, ip->addrs[NDIRECT]);
-    ip->addrs[NDIRECT] = 0;
   }
 
   ip->size = 0;
