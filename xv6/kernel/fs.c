@@ -410,15 +410,21 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   cprintf("file size: %d\n", ip->size);
 
   if(ip->type == T_DEV){
+    cprintf("type == t_dev\n");
     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].read)
       return -1;
     return devsw[ip->major].read(ip, dst, n);
   }
 
   if(off > ip->size || off + n < off)
+  {
     return -1;
-  if(off + n > ip->size)
+  }
+  if(off + n > ip->size
+  {
+    cprintf("off + n > ip->size\n");
     n = ip->size - off;
+  }
 
   cprintf("read size n: %d\n", n);
 
