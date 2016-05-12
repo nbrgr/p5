@@ -479,8 +479,10 @@ writei(struct inode *ip, char *src, uint off, uint n)
     cprintf("src: %s\n", src);
     cprintf("write size: %d\n", n);
     memmove(data + off, src, n);
+    if(n > ip->size)
+      ip->size += n;
   }
-  
+
   if(ip->type != T_SMALLFILE)
   {
     for(tot=0; tot<n; tot+=m, off+=m, src+=m){
