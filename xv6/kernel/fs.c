@@ -453,8 +453,6 @@ writei(struct inode *ip, char *src, uint off, uint n)
   uint tot, m;
   struct buf *bp;
 
-  cprintf("given write size n: %d\n", n);
-
   if(ip->type == T_DEV){
     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].write)
       return -1;
@@ -476,7 +474,6 @@ writei(struct inode *ip, char *src, uint off, uint n)
     if(off + n > sizeof(uint) * (NDIRECT + 1))
       n = (sizeof(uint) * (NDIRECT + 1)) - off;
 
-    cprintf("write size n: %d\n", n);
     char* data = (char*)ip->addrs;
     memmove(data + off, src, n);
   }
