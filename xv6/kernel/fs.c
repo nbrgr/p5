@@ -408,23 +408,17 @@ readi(struct inode *ip, char *dst, uint off, uint n)
 
   cprintf("read size n: %d\n", n);
   cprintf("file size: %d\n", ip->size);
-/*
+
   if(ip->type == T_DEV){
-    cprintf("type == t_dev\n");
     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].read)
       return -1;
     return devsw[ip->major].read(ip, dst, n);
   }
-*/
+
   if(off > ip->size || off + n < off)
-  {
     return -1;
-  }
   if(off + n > ip->size)
-  {
-    cprintf("off + n > ip->size\n");
     n = ip->size - off;
-  }
 
   cprintf("read size n: %d\n", n);
 
@@ -459,7 +453,6 @@ writei(struct inode *ip, char *src, uint off, uint n)
   uint tot, m;
   struct buf *bp;
 
-  cprintf("offset: %d\n", off);
 
   if(ip->type == T_DEV){
     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].write)
@@ -479,16 +472,15 @@ writei(struct inode *ip, char *src, uint off, uint n)
   {
     if(off > ip->size || off + n < off)
       return -1;
-    if(off + n > (sizeof(uint) * (NDIRECT + 1)))
+    if(off + n > sizeof(uint) * (NDIRECT + 1))
       n = (sizeof(uint) * (NDIRECT + 1)) - off;
 
     char* data = (char*)ip->addrs;
     cprintf("src: %s\n", src);
     cprintf("write size: %d\n", n);
     memmove(data + off, src, n);
-    off += n;
   }
-
+  
   if(ip->type != T_SMALLFILE)
   {
     for(tot=0; tot<n; tot+=m, off+=m, src+=m){
