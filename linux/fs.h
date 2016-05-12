@@ -18,6 +18,10 @@ struct superblock {
   uint ninodes;      // Number of inodes.
 };
 
+struct block {
+  char content[BSIZE];
+};
+
 #define NDIRECT 12
 #define NINDIRECT (BSIZE / sizeof(uint))
 #define MAXFILE (NDIRECT + NINDIRECT)
