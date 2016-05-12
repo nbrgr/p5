@@ -473,15 +473,14 @@ writei(struct inode *ip, char *src, uint off, uint n)
   {
     if(off > ip->size || off + n < off)
       return -1;
-    if(off + n > sizeof(uint) * (NDIRECT + 1))
+    if(off + n > (sizeof(uint) * (NDIRECT + 1)))
       n = (sizeof(uint) * (NDIRECT + 1)) - off;
 
     char* data = (char*)ip->addrs;
     cprintf("src: %s\n", src);
     cprintf("write size: %d\n", n);
     memmove(data + off, src, n);
-    if(n + off > ip->size)
-      ip->size = (ip->size - off) + n;
+    off += n;
   }
 
   if(ip->type != T_SMALLFILE)
