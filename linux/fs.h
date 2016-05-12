@@ -19,15 +19,15 @@ struct dinode {
   short minor;          // Minor device number (T_DEV only)
   short nlink;          // Number of links to inode in file system
   unsigned int size;            // Size of file (bytes)
-  uint addrs[NDIRECT+1];   // Data block addresses
+  unsigned int addrs[NDIRECT+1];   // Data block addresses
 };
 
 
 // File system super block
 struct superblock {
   unsigned int size;         // Size of file system image (blocks)
-  uint nblocks;      // Number of data blocks
-  uint ninodes;      // Number of inodes.
+  unsigned int nblocks;      // Number of data blocks
+  unsigned int ninodes;      // Number of inodes.
 };
 
 // Inodes per block.
