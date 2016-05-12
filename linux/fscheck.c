@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 
         fprintf(stderr, "converted map to block\n");
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
-	inodes = (struct dinodes*)(&blocks[2]);
+	inodes = (struct dinode*)(&blocks[2]);
 	rootnode = &inodes[0];
         
 	ninodes = superblock->ninodes; // Gets the number of inodes in the system;
