@@ -468,23 +468,23 @@ writei(struct inode *ip, char *src, uint off, uint n)
 
     char* data = (char*)ip->addrs;
     memmove(data + off, src, n);
-    return n;
   }
-
-  for(tot=0; tot<n; tot+=m, off+=m, src+=m){
-    uint sector_number = bmap(ip, off/BSIZE);
-    if(sector_number == 0){ //failed to find block
-      n = tot; //return number of bytes written so far
-      break;
+  if(ip->type != T_SMALLFILE)
+  {
+    for(tot=0; tot<n; tot+=m, off+=m, src+=m){
+      uint sector_number = bmap(ip, off/BSIZE);
+      if(sector_number == 0){ //failed to find block
+        n = tot; //return number of bytes written so far
+        break;
+      }
+      
+      bp = bread(ip->dev, sector_number);
+      m = min(n - tot, BSIZE - off%BSIZE);
+      memmove(bp->data + off%BSIZE, src, m);
+      bwrite(bp);
+      brelse(bp);
     }
-    
-    bp = bread(ip->dev, sector_number);
-    m = min(n - tot, BSIZE - off%BSIZE);
-    memmove(bp->data + off%BSIZE, src, m);
-    bwrite(bp);
-    brelse(bp);
   }
-
   if(n > 0 && off > ip->size){
     ip->size = off;
     iupdate(ip);
