@@ -420,7 +420,7 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   {
     return -1;
   }
-  if(off + n > ip->size
+  if(off + n > ip->size)
   {
     cprintf("off + n > ip->size\n");
     n = ip->size - off;
