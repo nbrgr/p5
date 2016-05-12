@@ -406,6 +406,8 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   uint tot, m;
   struct buf *bp;
 
+  cprintf("read size n: %d\n", n);
+
   if(ip->type == T_DEV){
     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].read)
       return -1;
@@ -421,7 +423,7 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   {
     char* data = (char*)ip->addrs;
     cprintf("data: %d, addr:%d\n", data, ip->addrs);
-    cprintf("offset: %d, read size: %d\n", off, n);
+    cprintf("offset: %d, data + off: %d, read size: %d\n", off, data + off, n);
     memmove(dst, data + off, n);
   }
   else 
