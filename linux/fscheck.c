@@ -21,6 +21,7 @@ int main(int argc, char* argv[]) {
 
 	if(argc != 2)
 	{
+		fprintf(stderr, "Incorrect number of arguments\n");
 		return -1;
 	}
 
@@ -28,11 +29,13 @@ int main(int argc, char* argv[]) {
 
 	if(fs == -1)
 	{
+		fprintf(stderr, "Failed to open file\n");
 		return -1;
 	}
 
 	if(fstat(fs, &fstats) != 0)
 	{
+		fprintf(stderr, "Failed to retrieve stats\n");
 		return -1;
 	}
 
@@ -42,6 +45,7 @@ int main(int argc, char* argv[]) {
 
 	if(map == MAP_FAILED)
 	{
+		fpritnf(stderr, "Failed to map\n");
 		return -1;
 	}
 
