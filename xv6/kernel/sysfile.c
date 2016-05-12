@@ -270,7 +270,7 @@ sys_open(void)
       if((ip = create(path, T_SMALLFILE, 0, 0)) == 0)
         return -1;
     }
-    else((ip = create(path, T_FILE, 0, 0)) == 0)
+    else if((ip = create(path, T_FILE, 0, 0)) == 0)
       return -1;
   } else {
     if((ip = namei(path)) == 0)
