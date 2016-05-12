@@ -407,6 +407,7 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   struct buf *bp;
 
   cprintf("read size n: %d\n", n);
+  cprintf("file size: %d\n", ip->size);
 
   if(ip->type == T_DEV){
     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].read)
