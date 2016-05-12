@@ -13,11 +13,13 @@ int main(int argc, char* argv[]) {
 	struct stat fstats;
 	struct block* blocks;
 	struct superblock* superblock;
+	struct dinodes* inodes;
 	int ninodes;
 	int ninodeblocks;
 	int bitmaps;
 	int nbitmapblocks;
 	int ndatablocks;
+	struct dinode* rootnode;
 
 	if(argc != 2)
 	{
@@ -54,6 +56,8 @@ int main(int argc, char* argv[]) {
 
         fprintf(stderr, "converted map to block\n");
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
+	inodes = (struct dinodes*)(&blocks[2]);
+	rootnode = &inodes[0];
         
 	ninodes = superblock->ninodes; // Gets the number of inodes in the system;
 
@@ -63,10 +67,11 @@ int main(int argc, char* argv[]) {
 
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
-	nbitmapblocks = ndatablocks / (BSIZE * BPB); // Computes the number of bit map blocks there are.
+	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
 
 	printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
 	printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
+	printf("Root node type: %d\n", rootnode->type);
 
     return 0;
 }

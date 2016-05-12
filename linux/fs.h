@@ -8,6 +8,10 @@
 // Block 1 is super block.
 // Inodes start at block 2.
 
+#define T_DIR  1   // Directory
+#define T_FILE 2   // File
+#define T_DEV  3   // Special device
+
 #define ROOTINO 1  // root i-number
 #define BSIZE 512  // block size
 #define NDIRECT 12
