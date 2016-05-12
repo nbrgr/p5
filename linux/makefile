@@ -13,7 +13,7 @@ all: $(TARGET)
 
 #make an executable from whoosh.c
 $(TARGET): $(TARGET).c
-        $(CC) $(CFLAGS) -o $(TARGET) $(TARGET).c
+	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).c
 
 clean:
-        $(RM) fscheck
+	$(RM) fscheck
