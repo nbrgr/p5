@@ -18,14 +18,14 @@ struct dinode {
   short major;          // Major device number (T_DEV only)
   short minor;          // Minor device number (T_DEV only)
   short nlink;          // Number of links to inode in file system
-  uint size;            // Size of file (bytes)
+  unsigned int size;            // Size of file (bytes)
   uint addrs[NDIRECT+1];   // Data block addresses
 };
 
 
 // File system super block
 struct superblock {
-  uint size;         // Size of file system image (blocks)
+  unsigned int size;         // Size of file system image (blocks)
   uint nblocks;      // Number of data blocks
   uint ninodes;      // Number of inodes.
 };
@@ -51,7 +51,7 @@ struct superblock {
 #define MAXFILE (NDIRECT + NINDIRECT)
 
 struct dirent {
-  ushort inum;
+  unsigned short inum;
   char name[DIRSIZ];
 };
 
