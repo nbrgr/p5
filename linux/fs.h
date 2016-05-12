@@ -12,29 +12,31 @@
 #define BSIZE 512  // block size
 #define NDIRECT 12
 
+typedef unsigned int uint;
+
 // On-disk inode structure
 struct dinode {
   short type;           // File type
   short major;          // Major device number (T_DEV only)
   short minor;          // Minor device number (T_DEV only)
   short nlink;          // Number of links to inode in file system
-  unsigned int size;            // Size of file (bytes)
+  uint size;            // Size of file (bytes)
   uint addrs[NDIRECT+1];   // Data block addresses
 };
 
 
 // File system super block
 struct superblock {
-  unsigned int size;         // Size of file system image (blocks)
-  unsigned int nblocks;      // Number of data blocks
-  unsigned int ninodes;      // Number of inodes.
+  uint size;         // Size of file system image (blocks)
+  uint nblocks;      // Number of data blocks
+  uint ninodes;      // Number of inodes.
 };
 
 // Inodes per block.
 
 #define IPB           (BSIZE / sizeof(struct dinode))
 
-// Block containing inode i
+// Block containing uinode i
 #define IBLOCK(i)     ((i) / IPB + 2)
 
 // Bitmap bits per block
