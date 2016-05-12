@@ -12,6 +12,9 @@ int main(int argc, char* argv[]) {
 	void* map;
 	struct stat fstats;
 	struct block* blocks;
+	struct superblock* superblock;
+	int ninodes;
+	int ninodeblocks;
 
 	if(argc != 2)
 	{
@@ -40,6 +43,9 @@ int main(int argc, char* argv[]) {
 	}
 
 	blocks = (struct block*)map;
+	superblock = (struct superblock*)blocks[1];
+	ninodes = superblock->ninodes;
+	ninodeblocks = ninodes / IPB;
 
     return 0;
 }

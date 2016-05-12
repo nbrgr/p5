@@ -11,31 +11,6 @@
 #define ROOTINO 1  // root i-number
 #define BSIZE 512  // block size
 
-// File system super block
-struct superblock {
-  uint size;         // Size of file system image (blocks)
-  uint nblocks;      // Number of data blocks
-  uint ninodes;      // Number of inodes.
-};
-
-struct block {
-  char content[BSIZE];
-};
-
-#define NDIRECT 12
-#define NINDIRECT (BSIZE / sizeof(uint))
-#define MAXFILE (NDIRECT + NINDIRECT)
-
-// On-disk inode structure
-struct dinode {
-  short type;           // File type
-  short major;          // Major device number (T_DEV only)
-  short minor;          // Minor device number (T_DEV only)
-  short nlink;          // Number of links to inode in file system
-  uint size;            // Size of file (bytes)
-  uint addrs[NDIRECT+1];   // Data block addresses
-};
-
 // Inodes per block.
 #define IPB           (BSIZE / sizeof(struct dinode))
 
@@ -51,9 +26,40 @@ struct dinode {
 // Directory is a file containing a sequence of dirent structures.
 #define DIRSIZ 14
 
+#define NDIRECT 12
+#define NINDIRECT (BSIZE / sizeof(uint))
+#define MAXFILE (NDIRECT + NINDIRECT)
+
 struct dirent {
   ushort inum;
   char name[DIRSIZ];
 };
+
+
+// File system super block
+struct superblock {
+  uint size;         // Size of file system image (blocks)
+  uint nblocks;      // Number of data blocks
+  uint ninodes;      // Number of inodes.
+};
+
+struct block {
+  char content[BSIZE];
+};
+
+struct inode_block {
+  struct dinode[IPB];
+};
+
+// On-disk inode structure
+struct dinode {
+  short type;           // File type
+  short major;          // Major device number (T_DEV only)
+  short minor;          // Minor device number (T_DEV only)
+  short nlink;          // Number of links to inode in file system
+  uint size;            // Size of file (bytes)
+  uint addrs[NDIRECT+1];   // Data block addresses
+};
+
 
 #endif // _FS_H_
