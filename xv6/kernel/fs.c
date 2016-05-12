@@ -464,7 +464,7 @@ writei(struct inode *ip, char *src, uint off, uint n)
     if(off > ip->size || off + n < off)
       return -1;
     if(off + n > sizeof(uint) * (NDIRECT + 1))
-      n = (sizeof(uint) * (NDIRET + 1)) - off;
+      n = (sizeof(uint) * (NDIRECT + 1)) - off;
 
     char* data = (char*)ip->addrs;
     memmove(data + off, src, n);
