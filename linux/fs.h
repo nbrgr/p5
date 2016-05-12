@@ -48,7 +48,7 @@ struct block {
 };
 
 struct inode_block {
-  struct dinode[IPB];
+  struct dinode inodes[IPB];
 };
 
 // On-disk inode structure

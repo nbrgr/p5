@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 
 	bitmaps = BBLOCK(0, ninodes); // Finds the first block number of the bitmaps 
 
-	ndatablocks = superblock->ndatablocks; // Gets the number of datablocks there are
+	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
 	nbitmapblocks = ndatablocks / (BSIZE * BPB); // Computes the number of bit map blocks there are.
 
