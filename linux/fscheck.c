@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	fs = open(argv[1], O_RDWR);
+	printf("File location: %p\n", *argv[1]);
 
 	if(fs == -1)
 	{
