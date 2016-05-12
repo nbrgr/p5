@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
-	fs = open(argv[1], O_RDRW);
+	fs = open(argv[1], O_RDWR);
 
 	if(fs == -1)
 	{
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 
 	fsize = fstats.st_size;
 
-	map = mmap(NULL, fsize, PROT_READ | PROT_WRITE, 0, 0);
+	map = mmap(NULL, fsize, PROT_READ | PROT_WRITE, 0, fs, 0);
 
 	if(map == MAP_FAILED)
 	{
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
 	blocks = (struct block*)map; // Converts our mapping into an array of blocks;
 
-	superblock = (struct superblock*)blocks[1]; // Gets a pointer to the superblock;
+	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
 
 	ninodes = superblock->ninodes; // Gets the number of inodes in the system;
 
