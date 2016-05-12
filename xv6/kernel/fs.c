@@ -420,11 +420,13 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   if(off + n > ip->size)
     n = ip->size - off;
 
+  cprintf("read size n: %d\n", n);
+
   if(ip->type == T_SMALLFILE)
   {
     char* data = (char*)ip->addrs;
     cprintf("data: %d, addr:%d\n", data, ip->addrs);
-    cprintf("offset: %d, data + off: %d, read size: %d\n", off, data + off, n);
+    cprintf("offset: %d, data + off: %d, read size n: %d\n", off, data + off, n);
     memmove(dst, data + off, n);
   }
   else 
