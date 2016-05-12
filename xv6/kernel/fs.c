@@ -420,20 +420,23 @@ readi(struct inode *ip, char *dst, uint off, uint n)
   if(ip->type == T_SMALLFILE)
   {
     char* data = (char*)ip->addrs;
+    cprintf("data: %d, addr:%d\n", data, ip->addrs);
+    cprintf("offset: %d, read size: %d\n", off, n);
     memmove(dst, data + off, n);
-    return n;
   }
-
-  for(tot=0; tot<n; tot+=m, off+=m, dst+=m){
-    uint sector_number = bmap(ip, off/BSIZE);
-    if(sector_number == 0){ //failed to find block
-      panic("readi: trying to read a block that was never allocated");
+  else 
+  {
+    for(tot=0; tot<n; tot+=m, off+=m, dst+=m){
+      uint sector_number = bmap(ip, off/BSIZE);
+      if(sector_number == 0){ //failed to find block
+        panic("readi: trying to read a block that was never allocated");
+      }
+      
+      bp = bread(ip->dev, sector_number);
+      m = min(n - tot, BSIZE - off%BSIZE);
+      memmove(dst, bp->data + off%BSIZE, m);
+      brelse(bp);
     }
-    
-    bp = bread(ip->dev, sector_number);
-    m = min(n - tot, BSIZE - off%BSIZE);
-    memmove(dst, bp->data + off%BSIZE, m);
-    brelse(bp);
   }
   return n;
 }
