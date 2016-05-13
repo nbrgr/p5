@@ -273,6 +273,7 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 		if(inodes[i].nlink != imrk[i]) {
+			printf("links: %i, counted: %i\n", inodes[i].nlink, imrk[i]);
 			fprintf(stderr, "ERROR: bad reference count for file.\n");
 			return 1;
 		}
