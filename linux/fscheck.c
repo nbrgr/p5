@@ -85,10 +85,10 @@ int main(int argc, char* argv[]) {
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
-				//if(inodes[i].addrs[j] == 0) {
-				//	fprintf(stderr, "ERROR: bad address in inode.\n");
-				//	return 1;
-				//}
+				if(inodes[i].addrs[j] == 0) {
+					fprintf(stderr, "ERROR: bad address in inode.\n");
+					return 1;
+				}
 			}
 		}
 		if(inodes[i].type == T_DIR) {
