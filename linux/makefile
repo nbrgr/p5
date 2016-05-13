@@ -4,7 +4,7 @@ CC = gcc
 #compiler flags
 # -O     optimizes the code
 # -Wall  turns on compiler warnings
-CFLAGS = -O -Wall -std=c99 
+CFLAGS = -O -Wall -std=gnu99 
 
 #target executable
 TARGET = fscheck

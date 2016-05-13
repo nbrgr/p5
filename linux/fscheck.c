@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <fcntl.h>
-#include <string.h>
+#include <strings.h>
 #include <errno.h>
 
 char getbit(char byte, int position)
