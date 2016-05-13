@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
 
-	mindatablock = 1 + ninodeblocks + nbitmapblocks;
+	mindatablock = 3 + ninodeblocks + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
 
 	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
