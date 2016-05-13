@@ -13,7 +13,7 @@ char getbit(char byte, int position)
 	return ((byte >> position) & 0x01); 
 }
 
-char readbitmap(int block, int ninodes, struct blocks* fs)
+char readbitmap(int block, int ninodes, struct block* fs)
 {
 	int bitmap = BBLOCK(block, ninodes);
 	int offset = block % BPB;
@@ -162,10 +162,10 @@ int main(int argc, char* argv[]) {
 		}
 		if(inodes[i].type == T_DIR) {
 			for(j = 0; j < NDIRECT; j++) {
-				if(strcmp(inodes[i].addrs[j]->name, ".") == 0) {
+				if(strcmp((&inodes[i].addrs[j])->name, ".") == 0) {
 					found++;
 				}
-				else if(strcmp(inodes[i].addrs[j]->name, "..") == 0) {
+				else if(strcmp((&inodes[i].addrs[j])->name, "..") == 0) {
 					found++;
 				}
 			}
