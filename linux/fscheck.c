@@ -176,10 +176,10 @@ int main(int argc, char* argv[]) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
 					{
-						//if(imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] != 1)
-						//{
-							imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum]++;
-						//}
+						if(imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] != 1)
+						{
+							imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] = 1;
+						}
 					}
 					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
 						found++;
@@ -267,7 +267,7 @@ int main(int argc, char* argv[]) {
 
 	for(i = 0; i < ninodes; i++)
 	{
-		if(inodes[i].type == 0 && imrk[i] > 0)
+		if(inodes[i].type == 0 && imrk[i] == 1)
 		{
 			fprintf(stderr, "ERROR: inode referred to in directory but marked free.\n");
 			return 1;
