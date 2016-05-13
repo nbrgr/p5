@@ -286,13 +286,13 @@ int main(int argc, char* argv[]) {
 		{
 			if(addr == 1)
 			{
-				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
-				return 1;
+				//fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
+				//return 1;
 			}
 			if(bitmap == 1)
 			{
-				fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
-				return 1;
+				//fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
+				//return 1;
 			}
 		}
 	}
