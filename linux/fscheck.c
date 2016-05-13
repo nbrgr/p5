@@ -24,7 +24,7 @@ char readbitmap(int block, int ninodes, struct block* fs)
 	struct block* bitmapblock = &fs[bitmap];
 	struct bitmap* map = (struct bitmap*)bitmapblock;
 	char byte = map->bitchunk[chunk];
-	printf("Block to check: %d, Bitmap block: %d, Offset into block: %d, \nByte of that block: %d, Offset into that byte: %d, that byte: %c\n", block, bitmap, offset, chunk, bitchunkoff, byte);
+	printf("Block to check: %d, Bitmap block: %d, Offset into block: %d, \nByte of that block: %d, Offset into that byte: %d, that byte: %x", block, bitmap, offset, chunk, bitchunkoff, byte);
 	return getbit(byte, bitchunkoff);
 }
 
@@ -198,7 +198,11 @@ int main(int argc, char* argv[]) {
 				return 1;
 			}
 			else {
-				//if(toparent)
+				
+				if(&inodes[i] != inodes[toparent->inum]) {
+					fprintf(stderr, "ERROR: parent directory mismatch.\n");
+					return 1;
+				}
 			}
 		}
 	}
