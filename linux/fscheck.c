@@ -250,12 +250,10 @@ int main(int argc, char* argv[]) {
 
 	dironce = (char*)malloc(dircnt);
 	bzero(dironce, dircnt);
-	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
+	for(i = 1; i < ninodes && inodes[i].type != 0; i++)
 	{
 		if(inodes[i].type == T_DIR) {
 			dircnt++;
-			found = 0;
-			struct dirent* toparent = NULL;
 			for(j = 0; j < NDIRECT; j++) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
