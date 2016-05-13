@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
         int i, j;
         //DIR* dir;
         
-	for(i = 1; i < ninodes + 1 && inodes[i] != 0; i++)
+	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
 	{
 		fprintf(stderr, "inode type: %d\n", inodes[i].type);
 		if((inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV))
