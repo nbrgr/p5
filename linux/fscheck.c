@@ -6,6 +6,12 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 
+int checkdir(DIR dir) {
+	
+	
+	return 0;
+}
+
 int main(int argc, char* argv[]) {
 	int fs;
 	int fsize;
@@ -74,20 +80,36 @@ int main(int argc, char* argv[]) {
 	printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
 	printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
 	printf("Root node type: %d\n", rootnode->type);
-        int i;
+        int i, j;
+        uint curr;
+        
+        
 	for(i = 0; i < ninodes; i++)
 	{
 		if((inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV) && (inodes[i].type != 0))
 		{
-			fprintf(stderr, "bad inode.");
+			fprintf(stderr, "bad inode.\n");
 			return -1;
 		}
 		if((inodes[i] == T_DIR) || (inodes[i] == T_FILE) || (inodes[i] == T_DEV)) {
-			
+			for(j = 0; j < NDIRECT; j++) {
+				if(inodes[i].addrs[j] != 0 && ) {
+					fprintf(stderr, "bad address in inode.\n");
+				}
+			}
+		}
+		if((inodes[i] == T_DIR) {
+			if(checkdir(inodes[i] != 0){
+				fprintf(stderr, "directory not properly formatted.\n");
+			}
 		}
 		
 		
 	}
+	if(inodes[0] == 0 || rootnode != 1) {
+		fprintf(stderr, "root directory does not exist.\n");
+	}
+	
 
     return 0;
 }
