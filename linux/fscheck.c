@@ -13,6 +13,7 @@ int main(int argc, char* argv[]) {
 	void* map;
 	struct stat fstats;
 	struct block* blocks;
+	struct block* datablocks;
 	struct superblock* superblock;
 	struct dinode* inodes;
 	int ninodes;
@@ -22,6 +23,7 @@ int main(int argc, char* argv[]) {
 	int ndatablocks;
 	struct dinode* rootnode;
 	int maxblock;
+	int mindatablock;
 
 	if(argc != 2)
 	{
@@ -59,6 +61,7 @@ int main(int argc, char* argv[]) {
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
 	inodes = (struct dinode*)(&blocks[2]);
 	rootnode = &inodes[1];
+
         
 	ninodes = superblock->ninodes; // Gets the number of inodes in the system;
 
@@ -68,6 +71,9 @@ int main(int argc, char* argv[]) {
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
+
+	mindatablock = 1 + ninodes + nbitmapblocks;
+	datablocks = &blocks[mindatablock];
 
 	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
 	//printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
@@ -85,10 +91,10 @@ int main(int argc, char* argv[]) {
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
-				//if(inodes[i].addrs[j] == 0) {
-				//	fprintf(stderr, "ERROR: bad address in inode.\n");
-				//	return 1;
-				//}
+				if((inodes[i].addrs[j] < mindatablock) || inodes[i].addrs[j] >= maxblock) {
+					fprintf(stderr, "ERROR: bad address in inode.\n");
+					return 1;
+				}
 			}
 		}
 		if(inodes[i].type == T_DIR) {
@@ -102,7 +108,7 @@ int main(int argc, char* argv[]) {
 		
 		
 	}
-	if(rootnode == NULL || rootnode != &inodes[1]) {
+	if(rootnode == NULL || rootnode != &inodes[1] ) {
 		fprintf(stderr, "ERROR: root directory does not exist.\n");
 		return 1;
 	}
