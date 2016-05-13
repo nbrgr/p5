@@ -78,9 +78,9 @@ int main(int argc, char* argv[]) {
 	mindatablock = 1 + ninodes + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
 
-	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
-	//printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
-	//printf("Root node type: %d\n", rootnode->type);
+	printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
+	printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
+	printf("Root node type: %d\n", rootnode->type);
         int i, j;
         //DIR* dir;
         
