@@ -266,7 +266,7 @@ int main(int argc, char* argv[]) {
 						}
 						else
 						{
-							fprintf(stderr,"ERROR: directory appears more than once in file system.");
+							fprintf(stderr,"ERROR: directory appears more than once in file system.\n");
 							return 1;
 						}
 					}
@@ -283,7 +283,7 @@ int main(int argc, char* argv[]) {
 								dironce[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] = 1;
 							}
 							else {
-								fprintf(stderr,"ERROR: directory appears more than once in file system.");
+								fprintf(stderr,"ERROR: directory appears more than once in file system.\n");
 								return 1;
 							}
 						}
