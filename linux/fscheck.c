@@ -197,14 +197,14 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	printf("ADDRS:\n");
+	printf("ADDRS:\r\n");
 
 	for(i = 0; i < maxblock; i++)
 	{
 		printf("%d", addrsinuse[i]);
 	}
 
-	printf("Bitmap:");
+	printf("\r\nBitmap:\r\n");
 
 	for(i = 0; i < maxblock; i++)
 	{
