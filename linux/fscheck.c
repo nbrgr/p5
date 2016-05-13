@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	fs = open(argv[1], O_RDWR);
-	printf("File location: %p\n", *argv[1]);
+	printf("File location: %p\n", argv[1]);
 
 	if(fs == -1)
 	{
@@ -74,8 +74,8 @@ int main(int argc, char* argv[]) {
 	printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
 	printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
 	printf("Root node type: %d\n", rootnode->type);
-
-	for(int i = 0; i < ninodes; i++)
+        int i;
+	for(i = 0; i < ninodes; i++)
 	{
 		if((inodes[i].type != T_DIR) || (inodes[i].type != T_FILE) || (inodes[i].type != T_DEV) || (inodes[i].type != 0))
 		{
