@@ -21,7 +21,7 @@ char readbitmap(int block, int ninodes, struct block* fs)
 	int bitchunk = offset / 8;
 	int bitchunkoff = offset % 8;
 	char byte = ((char *)&(fs[bitmap]))[bitchunk];
-	printf("Bitmap block: %d, Offset into block: %d, Byte of that block: %d, Offset into that byte: %d", bitmap, offset, bitchunk, bitchunkoff);
+	printf("Block to check: %d, Bitmap block: %d, Offset into block: %d, Byte of that block: %d, Offset into that byte: %d", block, bitmap, offset, bitchunk, bitchunkoff);
 	return getbit(byte, bitchunkoff);
 }
 
@@ -192,7 +192,7 @@ int main(int argc, char* argv[]) {
 				return 1;
 			}
 		}
-
+	}
 
 	for(i = mindatablock; i < maxblock; i++)
 	{
@@ -214,7 +214,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 		
-	}
+	
 	if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
 		fprintf(stderr, "ERROR: root directory does not exist.\n");
 		return 1;
