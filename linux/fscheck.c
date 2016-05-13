@@ -10,22 +10,17 @@
 #include <strings.h>
 #include <errno.h>
 
-char getbit(char byte, int position)
-{
-	return ((byte >> position) & 0x01); 
-}
-
 char readbitmap(int block, int ninodes, struct block* fs)
 {
-	int bitmap = BBLOCK(block, ninodes);
-	int offset = block % BPB;
-	int chunk = offset / 8;
-	int bitchunkoff = offset % 8;
-	struct block* bitmapblock = &fs[bitmap];
-	struct bitmap* map = (struct bitmap*)bitmapblock;
-	char byte = map->bitchunk[chunk];
-	//printf("Block to check: %d, Bitmap block: %d, Offset into block: %d, \nByte of that block: %d, Offset into that byte: %d, that byte: %x", block, bitmap, offset, chunk, bitchunkoff, byte);
-	return getbit(byte, bitchunkoff);
+	struct bitmap* bp = (struct bitmap*)&fs[BBLOCK(block, ninodes)];
+	int bi, m;
+  	bi = block % BPB;
+  	m = 1 << (bi % 8);
+  	if(bp->bitchunk[bi/8] & m)
+  	{
+  		return 1;
+  	}
+  	return 0;
 }
 
 int main(int argc, char* argv[]) {
