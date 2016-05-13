@@ -75,9 +75,7 @@ int main(int argc, char* argv[]) {
 	printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
 	printf("Root node type: %d\n", rootnode->type);
         int i, j;
-        uint curr;
         //DIR* dir;
-        
         
 	for(i = 0; i < ninodes; i++)
 	{
@@ -104,7 +102,7 @@ int main(int argc, char* argv[]) {
 		
 		
 	}
-	if(inodes[0] == NULL || rootnode != 1) {
+	if(&inodes[0] == NULL || rootnode != 1) {
 		fprintf(stderr, "root directory does not exist.\n");
 	}
 	
