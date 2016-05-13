@@ -172,6 +172,19 @@ int main(int argc, char* argv[]) {
 					}
 				}
 			}
+			if(inodes[i].addrs[NDIRECT]) {
+				struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[i].addrs[NDIRECT]]);
+				for(j = 0; j < NINDIRECT; j++) {
+					for(k = 0; k < DIRENTS; k++) {
+						if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, ".") == 0) {
+							found++;
+				        	}
+						else if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, "..") == 0) {
+							found++;
+						}
+					}
+				}
+			}
 			if (found != 2) {
 				fprintf(stderr, "ERROR: directory not properly formatted.\n");
 			}
