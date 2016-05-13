@@ -43,6 +43,8 @@ int main(int argc, char* argv[]) {
 	int mindatablock;
 	char* addrsinuse;
 	char* imrk;
+	char* dironce;
+	int dircnt = 0;
 
 	if(argc != 2)
 	{
@@ -170,6 +172,7 @@ int main(int argc, char* argv[]) {
 				}
 		}
 		if(inodes[i].type == T_DIR) {
+			dircnt++;
 			found = 0;
 			struct dirent* toparent = NULL;
 			for(j = 0; j < NDIRECT; j++) {
@@ -214,6 +217,77 @@ int main(int argc, char* argv[]) {
 			if (found != 2) {
 				fprintf(stderr, "ERROR: directory not properly formatted.\n");
 				return 1;
+			}
+			/*else {
+				int index = 0;
+				for(j = 0; j < NDIRECT; j++) {
+					for(k = 0; k < DIRENTS; k++) {
+						if(strlen(((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].name) > 0) {
+							index = ((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].inum;
+						}
+					}
+				}
+				if(inodes[toparent->inum].addrs[NDIRECT]) {
+					struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[toparent->inum].addrs[NDIRECT]]);
+					for(j = 0; j < NINDIRECT; j++) {
+						for(k = 0; k < DIRENTS; k++) {
+							if(strlen( ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name) > 0) {
+								index = ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum;
+							}
+						}
+					}
+				}
+				//printf("toparent->inum: %i\n", toparent->inum);
+				//printf("i: %i\n", i);
+				//printf("index: %i\n", index);
+				if(&inodes[i] != &inodes[toparent->inum]) {
+					fprintf(stderr, "ERROR: parent directory mismatch.\n");
+					return 1;
+				}
+			}*/
+		}
+	}
+	dironce = (char*)malloc(dircnt);
+	bzero(dironce, dircnt);
+	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
+	{
+		if(inodes[i].type == T_DIR) {
+			dircnt++;
+			found = 0;
+			struct dirent* toparent = NULL;
+			for(j = 0; j < NDIRECT; j++) {
+				for(k = 0; k < DIRENTS; k++) {
+					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
+					{
+						if(dironce[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] == 0)
+						{
+							dironce[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] = 1;
+						}
+						else
+						{
+							fprintf(stderr,"ERROR: directory appears more than once in file system.");
+							return 1;
+						}
+					}
+				}
+			}
+			if(inodes[i].addrs[NDIRECT]) {
+				struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[i].addrs[NDIRECT]]);
+				for(j = 0; j < NINDIRECT; j++) {
+					for(k = 0; k < DIRENTS; k++) {
+						if((((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum) != 0)
+						{
+							if(dironce[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] == 0)
+							{
+								dironce[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] = 1;
+							}
+							else {
+								fprintf(stderr,"ERROR: directory appears more than once in file system.");
+								return 1;
+							}
+						}
+					}
+				}
 			}
 			/*else {
 				int index = 0;
