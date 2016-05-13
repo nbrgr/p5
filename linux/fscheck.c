@@ -347,8 +347,9 @@ int main(int argc, char* argv[]) {
 			fprintf(stderr, "ERROR: inode referred to in directory but marked free.\n");
 			return 1;
 		}
+		printf("links: %i, counted: %i\n", inodes[i].nlink, imrk[i]);
 		if(inodes[i].nlink != imrk[i]) {
-			printf("links: %i, counted: %i\n", inodes[i].nlink, imrk[i]);
+			
 			//fprintf(stderr, "ERROR: bad reference count for file.\n");
 			//return 1;
 		}
