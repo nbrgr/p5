@@ -247,6 +247,7 @@ int main(int argc, char* argv[]) {
 			}*/
 		}
 	}
+	/*
 	dironce = (char*)malloc(dircnt);
 	bzero(dironce, dircnt);
 	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
@@ -291,6 +292,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
+*/
 			/*else {
 				int index = 0;
 				for(j = 0; j < NDIRECT; j++) {
