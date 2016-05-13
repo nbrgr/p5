@@ -76,19 +76,19 @@ int main(int argc, char* argv[]) {
 	mindatablock = 1 + ninodeblocks + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
 
-	printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
-	printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
-	printf("Root node type: %d\n", rootnode->type);
+	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
+	//printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
+	//printf("Root node type: %d\n", rootnode->type);
         int i, j;
         //DIR* dir;
         
 	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
 	{
-		fprintf(stderr, "inode type: %d\n", inodes[i].type);
+		//fprintf(stderr, "inode type: %d\n", inodes[i].type);
 		if((inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV))
 		{
 			fprintf(stderr, "ERROR: bad inode.\n");
-			printf("bad inode.\n");
+			//printf("bad inode.\n");
 			return 1;
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
