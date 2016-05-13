@@ -247,7 +247,7 @@ int main(int argc, char* argv[]) {
 			}*/
 		}
 	}
-
+	/*
 	dironce = (char*)malloc(dircnt);
 	bzero(dironce, dircnt);
 	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
@@ -292,6 +292,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
+*/
 			/*else {
 				int index = 0;
 				for(j = 0; j < NDIRECT; j++) {
@@ -348,7 +349,7 @@ int main(int argc, char* argv[]) {
 			fprintf(stderr, "ERROR: inode referred to in directory but marked free.\n");
 			return 1;
 		}
-		printf("links: %i, counted: %i\n", inodes[i].nlink, imrk[i]);
+		printf("%ith time --> links: %i, counted: %i\n", i, inodes[i].nlink, imrk[i]);
 		if(inodes[i].nlink != imrk[i]) {
 			
 			//fprintf(stderr, "ERROR: bad reference count for file.\n");
