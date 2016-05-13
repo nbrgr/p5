@@ -187,6 +187,7 @@ int main(int argc, char* argv[]) {
 			}
 			if (found != 2) {
 				fprintf(stderr, "ERROR: directory not properly formatted.\n");
+				return 1;
 			}
 		}
 		
