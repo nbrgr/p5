@@ -289,6 +289,8 @@ int main(int argc, char* argv[]) {
 					}
 				}
 			}
+		}
+	}
 			/*else {
 				int index = 0;
 				for(j = 0; j < NDIRECT; j++) {
@@ -316,8 +318,7 @@ int main(int argc, char* argv[]) {
 					return 1;
 				}
 			}*/
-		}
-	}
+
 /*
 	for(i = mindatablock; i < maxblock; i++)
 	{
