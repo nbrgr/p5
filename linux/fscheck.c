@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <fcntl.h>
+#include <errno.h>
 
 int main(int argc, char* argv[]) {
 	int fs;
@@ -33,6 +34,7 @@ int main(int argc, char* argv[]) {
 
 	if(fs == -1)
 	{
+		fprintf(stderr, "error num: %i\n", errno);
 		fprintf(stderr, "Failed to open file\n");
 		return -1;
 	}
