@@ -132,7 +132,7 @@ int main(int argc, char* argv[]) {
 							//printf("bad address\n");
 							return 1;
 						}
-						else if(indiraddrs->addrs[j] != 0)
+						else if(inodes[i].addrs[j] != 0)
 						{
 							if (addrsinuse[inodes[i].addrs[j]] != 0)
 							{
