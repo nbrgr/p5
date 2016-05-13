@@ -309,7 +309,7 @@ int main(int argc, char* argv[]) {
 		if(inodes[i].nlink != imrk[i]) {
 			if(inodes[i].type == T_DIR)
 			{
-				fprintf("ERROR: directory appears more than once in file system.\n");
+				fprintf(stderr, "ERROR: directory appears more than once in file system.\n");
 				return 1;
 			}			
 			fprintf(stderr, "ERROR: bad reference count for file.\n");
