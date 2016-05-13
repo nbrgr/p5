@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
 	//printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
 	//printf("Root node type: %d\n", rootnode->type);
-        int i, j = 0, found = 0;
+        int i, j = 0, k = 0, found = 0;
         //DIR* dir;
         
 	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
@@ -162,12 +162,13 @@ int main(int argc, char* argv[]) {
 		}
 		if(inodes[i].type == T_DIR) {
 			for(j = 0; j < NDIRECT; j++) {
-				
-				if(strcmp(blocks[inodes[i].addrs[j]]->name, ".") == 0) {
+				for(k = 0; k < BSIZE; k++) {
+					if(strcmp(blocks[inodes[i].addrs[j]][k]->name, ".") == 0) {
 					found++;
-				}
-				else if(strcmp(blocks[inodes[i].addrs[j]]->name, "..") == 0) {
-					found++;
+				        }
+					else if(strcmp(blocks[inodes[i].addrs[j]][k]->name, "..") == 0) {
+						found++;
+					}
 				}
 			}
 			if (found != 2) {
@@ -176,25 +177,6 @@ int main(int argc, char* argv[]) {
 		}
 		
 		
-	}
-
-	for(int i = 0; i < maxblock; i++)
-	{
-		int addr = addrsinuse[i];
-		int bitmap = readbitmap(i, ninodes, blocks);
-		if(addr != bitmap)
-		{
-			if(addr == 0)
-			{
-				fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
-				return 1;
-			}
-			if(bitmap == 0)
-			{
-				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
-				return 1;
-			}
-		}
 	}
 	if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
 		fprintf(stderr, "ERROR: root directory does not exist.\n");
