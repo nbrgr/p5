@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "converted map to block\n");
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
 	inodes = (struct dinode*)(&blocks[2]);
-	rootnode = &inodes[0];
+	rootnode = &inodes[1];
         
 	ninodes = superblock->ninodes; // Gets the number of inodes in the system;
 
@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
 		
 		
 	}
-	if(&inodes[0] == 0 || rootnode != 1) {
+	if(rootnode == NULL || rootnode != inodes[1]) {
 		fprintf(stderr, "root directory does not exist.\n");
 	}
 	
