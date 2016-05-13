@@ -163,10 +163,10 @@ int main(int argc, char* argv[]) {
 		if(inodes[i].type == T_DIR) {
 			for(j = 0; j < NDIRECT; j++) {
 				for(k = 0; k < DIRENTS; k++) {
-					if(strcmp(blocks[inodes[i].addrs[j]][k]->name, ".") == 0) {
-					found++;
+					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
+						found++;
 				        }
-					else if(strcmp(blocks[inodes[i].addrs[j]][k]->name, "..") == 0) {
+					else if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, "..") == 0) {
 						found++;
 					}
 				}
