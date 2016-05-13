@@ -222,7 +222,7 @@ int main(int argc, char* argv[]) {
 			}*/
 		}
 	}
-/*
+
 	for(i = mindatablock; i < maxblock; i++)
 	{
 		int addr = addrsinuse[i];
@@ -241,7 +241,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-		*/
+		
 
 	if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
 		fprintf(stderr, "ERROR: root directory does not exist.\n");
