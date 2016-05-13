@@ -239,7 +239,7 @@ int main(int argc, char* argv[]) {
 			}*/
 		}
 	}
-
+/*
 	for(i = mindatablock; i < maxblock; i++)
 	{
 		int addr = addrsinuse[i];
@@ -258,7 +258,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-		
+		*/
 
 	for(i = 0; i < ninodes; i++)
 	{
