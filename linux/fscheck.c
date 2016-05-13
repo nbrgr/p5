@@ -162,7 +162,7 @@ int main(int argc, char* argv[]) {
 		}
 		if(inodes[i].type == T_DIR) {
 			for(j = 0; j < NDIRECT; j++) {
-				for(k = 0; k < BSIZE; k++) {
+				for(k = 0; k < DIRENTS; k++) {
 					if(strcmp(blocks[inodes[i].addrs[j]][k]->name, ".") == 0) {
 					found++;
 				        }
