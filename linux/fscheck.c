@@ -29,8 +29,10 @@ int main(int argc, char* argv[]) {
 	void* map;
 	struct stat fstats;
 	struct block* blocks;
+	struct block* datablocks;
 	struct superblock* superblock;
 	struct dinode* inodes;
+	struct block* bitmap;
 	int ninodes;
 	int ninodeblocks;
 	int bitmaps;
