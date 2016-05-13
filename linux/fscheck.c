@@ -161,6 +161,7 @@ int main(int argc, char* argv[]) {
 				}
 		}
 		if(inodes[i].type == T_DIR) {
+			found = 0;
 			for(j = 0; j < NDIRECT; j++) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
