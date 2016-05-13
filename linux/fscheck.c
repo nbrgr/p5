@@ -193,7 +193,7 @@ int main(int argc, char* argv[]) {
 				fprintf(stderr, "ERROR: directory not properly formatted.\n");
 				return 1;
 			}
-			else {
+			/*else {
 				int index = 0;
 				for(j = 0; j < NDIRECT; j++) {
 					for(k = 0; k < DIRENTS; k++) {
@@ -219,7 +219,7 @@ int main(int argc, char* argv[]) {
 					fprintf(stderr, "ERROR: parent directory mismatch.\n");
 					return 1;
 				}
-			}
+			}*/
 		}
 	}
 /*
