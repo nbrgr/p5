@@ -13,6 +13,8 @@ char getbit(char byte, int position)
 	return ((byte >> position) & 0x01); 
 }
 
+char readbitmap(int block);
+
 int main(int argc, char* argv[]) {
 	int fs;
 	int fsize;
@@ -112,7 +114,7 @@ int main(int argc, char* argv[]) {
 				{
 					if (addrsinuse[inodes[i].addrs[j]] != 0)
 					{
-						fprintf(stderr, "ERROR: address used more than once.");
+						fprintf(stderr, "ERROR: address used more than once.\n");
 						return 1;
 					}
 					else
@@ -136,7 +138,7 @@ int main(int argc, char* argv[]) {
 						{
 							if (addrsinuse[inodes[i].addrs[j]] != 0)
 							{
-								fprintf(stderr, "ERROR: address used more than once.");
+								fprintf(stderr, "ERROR: address used more than once.\n");
 								return 1;
 							}
 							else
