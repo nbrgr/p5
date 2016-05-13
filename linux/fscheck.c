@@ -172,7 +172,7 @@ int main(int argc, char* argv[]) {
 				        }
 					else if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, "..") == 0) {
 						found++;
-						toparent = (struct dirent*)&(blocks[inodes[i].addrs[j]])[k];
+						toparent = ((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k];
 					}
 				}
 			}
@@ -185,7 +185,7 @@ int main(int argc, char* argv[]) {
 				        	}
 						else if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, "..") == 0) {
 							found++;
-							toparent = (struct dirent*)&(blocks[inodes[i].addrs[j]])[k];
+							toparent = ((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k];
 						}
 					}
 				}
