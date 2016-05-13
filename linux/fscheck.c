@@ -12,7 +12,7 @@
 
 char getbit(char byte, int position)
 {
-	return ((byte >> position) & 0x01); 
+	return (1 << position) & byte; 
 }
 
 char readbitmap(int block, int ninodes, struct block* fs)
@@ -20,12 +20,11 @@ char readbitmap(int block, int ninodes, struct block* fs)
 	int bitmap = BBLOCK(block, ninodes);
 	int offset = block % BPB;
 	int chunk = offset / 8;
-	int bitchunkoff = offset % 8;
-	struct block* bitmapblock = &fs[bitmap];
-	struct bitmap* map = (struct bitmap*)bitmapblock;
+	int position = offset % 8;
+	struct bitmap* map = &fs[bitmap];
 	char byte = map->bitchunk[chunk];
-	printf("Block to check: %d, Bitmap block: %d, Offset into block: %d, \nByte of that block: %d, Offset into that byte: %d, that byte: %c\n", block, bitmap, offset, chunk, bitchunkoff, byte);
-	return getbit(byte, bitchunkoff);
+	printf("Block to check: %d, Bitmap block: %d, Offset into block: %d, \nByte of that block: %d, Offset into that byte: %d, that byte: %c\n", block, bitmap, offset, chunk, position, byte);
+	return getbit(byte, position);
 }
 
 int main(int argc, char* argv[]) {
@@ -98,7 +97,7 @@ int main(int argc, char* argv[]) {
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
 
-	mindatablock = 3 + ninodeblocks + nbitmapblocks;
+	mindatablock = BBLOCK(0, ninodes) + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
 
 	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
