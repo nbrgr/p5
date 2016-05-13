@@ -198,8 +198,25 @@ int main(int argc, char* argv[]) {
 				return 1;
 			}
 			else {
-				
-				if(&inodes[i] != &inodes[toparent->inum]) {
+				int index = 0;
+				for(j = 0; j < NDIRECT; j++) {
+					for(k = 0; k < DIRENTS; k++) {
+						if(strlen(((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].name) > 0) {
+							index = ((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].inum;
+						}
+					}
+				}
+				if(inodes[i].addrs[NDIRECT]) {
+					struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[toparent->inum].addrs[NDIRECT]]);
+					for(j = 0; j < NINDIRECT; j++) {
+						for(k = 0; k < DIRENTS; k++) {
+							if(strlen( ((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].name) > 0) {
+								index = ((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].inum;
+							}
+						}
+					}
+				}
+				if(&inodes[i] != &inodes[index]) {
 					fprintf(stderr, "ERROR: parent directory mismatch.\n");
 					return 1;
 				}
