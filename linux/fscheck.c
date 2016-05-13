@@ -305,11 +305,11 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 		
-		printf("%ith time --> links: %i, counted: %i\n", i, inodes[i].nlink, imrk[i]);
+		//printf("%ith time --> links: %i, counted: %i\n", i, inodes[i].nlink, imrk[i]);
 		if(inodes[i].nlink != imrk[i]) {
 			
-			//fprintf(stderr, "ERROR: bad reference count for file.\n");
-			//return 1;
+			fprintf(stderr, "ERROR: bad reference count for file.\n");
+			return 1;
 		}
 		
 		if((inodes[i].type == T_DEV || inodes[i].type == T_DIR || inodes[i].type == T_FILE) && imrk[i] == 0)
