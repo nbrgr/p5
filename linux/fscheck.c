@@ -206,7 +206,7 @@ int main(int argc, char* argv[]) {
 						}
 					}
 				}
-				if(inodes[i].addrs[NDIRECT]) {
+				if(inodes[toparent->inum].addrs[NDIRECT]) {
 					struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[toparent->inum].addrs[NDIRECT]]);
 					for(j = 0; j < NINDIRECT; j++) {
 						for(k = 0; k < DIRENTS; k++) {
@@ -216,7 +216,7 @@ int main(int argc, char* argv[]) {
 						}
 					}
 				}
-				//printf("toparent->inum: i%\n", (int)(toparent->inum));
+				printf("toparent->inum: i%\n", toparent->inum);
 				printf("i: %i\n", i);
 				printf("index: %i\n", index);
 				if(&inodes[i] != &inodes[index]) {
