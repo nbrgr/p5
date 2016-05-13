@@ -10,9 +10,9 @@
 #include <strings.h>
 #include <errno.h>
 
-char readbitmap(int block, int ninodes, struct bitmap* bmp)
+char readbitmap(int block, int ninodes, struct block* fs)
 {
-	struct bitmap* bp = bmp;
+	struct bitmap* bp = (struct bitmap*)&fs[BBLOCK(block, ninodes)];
 	int bi, m;
   	bi = block % BPB;
   	m = 1 << (bi % 8);
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 	struct block* datablocks;
 	struct superblock* superblock;
 	struct dinode* inodes;
-	struct bitmap* bitmap;
+	struct block* bitmap;
 	int ninodes;
 	int ninodeblocks;
 	int bitmaps;
@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
 
 	ninodeblocks = ninodes / IPB; // Computes the number of inode blocks there are;
 	bitmaps = BBLOCK(0, ninodes); // Finds the first block number of the bitmaps 
-	bitmap = (struct bitmap*)&blocks[bitmaps];
+	bitmap = &blocks[bitmaps];
 
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
@@ -177,7 +177,11 @@ int main(int argc, char* argv[]) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
 					{
-						imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum]++;
+						if(imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] == 1 && 
+							inodes[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum].type == T_DIR);
+							else {
+								imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum]++;
+							}
 					}
 					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
 						found++;
@@ -194,7 +198,11 @@ int main(int argc, char* argv[]) {
 					for(k = 0; k < DIRENTS; k++) {
 						if((((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum) != 0)
 						{
-							imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum]++;
+							if(imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] == 1 && 
+							inodes[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum].type == T_DIR);
+							else {
+								imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum]++;
+							}
 						}
 						if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, ".") == 0) {
 							found++;
@@ -268,6 +276,27 @@ int main(int argc, char* argv[]) {
 					return 1;
 				}
 			}*/
+
+
+	for(i = mindatablock; i < maxblock; i++)
+	{
+		int addr = addrsinuse[i];
+		int bitmap = readbitmap(i, ninodes, blocks);
+		if(addr ^ bitmap)
+		{
+			if(addr == 1)
+			{
+				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
+				return 1;
+			}
+			if(bitmap == 1)
+			{
+				fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
+				return 1;
+			}
+		}
+	}
+
 	for(i = 0; i < ninodes; i++)
 	{
 		if(inodes[i].type == 0 && imrk[i] > 0)
@@ -287,26 +316,6 @@ int main(int argc, char* argv[]) {
 		{
 			fprintf(stderr, "ERROR: inode marked use but not found in a directory.\n");
 			return 1;	
-		}
-	}
-
-	for(i = mindatablock; i < maxblock; i++)
-	{
-		int addr = addrsinuse[i];
-		int bmpresult = readbitmap(i, ninodes, bitmap);
-		if(addr ^ bmpresult)
-		{
-			if(bmpresult == 1)
-			{
-				fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
-				return 1;
-			}
-			if(addr == 1)
-			{
-				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
-				return 1;
-			}
-
 		}
 	}
 
