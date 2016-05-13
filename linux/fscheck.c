@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
 	
 	startdata = BSIZE * (1 + 1 + ninodeblocks + nbitmapblocks);
 
-	mindatablock = 1 + ninodes + nbitmapblocks;
+	mindatablock = 1 + ninodeblocks + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
 
 	printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
