@@ -105,6 +105,11 @@ int main(int argc, char* argv[]) {
         int i, j = 0, k = 0, found = 0;
         //DIR* dir;
         
+        if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
+		fprintf(stderr, "ERROR: root directory does not exist.\n");
+		return 1;
+	}
+        
 	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
 	{
 		//fprintf(stderr, "inode type: %d\n", inodes[i].type);
@@ -171,10 +176,10 @@ int main(int argc, char* argv[]) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
 					{
-						if(imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] != 1)
-						{
-							imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] = 1;
-						}
+						//if(imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] != 1)
+						//{
+							imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum]++;
+						//}
 					}
 					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
 						found++;
@@ -262,7 +267,7 @@ int main(int argc, char* argv[]) {
 
 	for(i = 0; i < ninodes; i++)
 	{
-		if(inodes[i].type == 0 && imrk[i] == 1)
+		if(inodes[i].type == 0 && imrk[i] > 0)
 		{
 			fprintf(stderr, "ERROR: inode referred to in directory but marked free.\n");
 			return 1;
@@ -272,11 +277,6 @@ int main(int argc, char* argv[]) {
 			fprintf(stderr, "ERROR: inode marked use but not found in a directory.\n");
 			return 1;	
 		}
-	}
-
-	if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
-		fprintf(stderr, "ERROR: root directory does not exist.\n");
-		return 1;
 	}
 	
 
