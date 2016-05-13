@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
 
-	mindatablock = 3 + ninodeblocks + nbitmapblocks;
+	mindatablock = 1 + ninodeblocks + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
 
 	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
@@ -164,6 +164,7 @@ int main(int argc, char* argv[]) {
 		}
 		if(inodes[i].type == T_DIR) {
 			found = 0;
+			struct dirent* toparent;
 			for(j = 0; j < NDIRECT; j++) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
@@ -171,6 +172,7 @@ int main(int argc, char* argv[]) {
 				        }
 					else if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, "..") == 0) {
 						found++;
+						toparent = (struct dirent*)&(blocks[inodes[i].addrs[j]])[k];
 					}
 				}
 			}
@@ -183,6 +185,7 @@ int main(int argc, char* argv[]) {
 				        	}
 						else if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, "..") == 0) {
 							found++;
+							toparent = (struct dirent*)&(blocks[inodes[i].addrs[j]])[k];
 						}
 					}
 				}
@@ -190,6 +193,9 @@ int main(int argc, char* argv[]) {
 			if (found != 2) {
 				fprintf(stderr, "ERROR: directory not properly formatted.\n");
 				return 1;
+			}
+			else {
+				//if(toparent)
 			}
 		}
 	}
