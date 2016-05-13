@@ -268,28 +268,6 @@ int main(int argc, char* argv[]) {
 					return 1;
 				}
 			}*/
-
-
-	for(i = mindatablock; i < maxblock; i++)
-	{
-		int addr = addrsinuse[i];
-		int bmpresult = readbitmap(i, ninodes, bitmap);
-		if(addr ^ bmpresult)
-		{
-			if(bmpresult == 1)
-			{
-				fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
-				return 1;
-			}
-			if(addr == 1)
-			{
-				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
-				return 1;
-			}
-
-		}
-	}
-
 	for(i = 0; i < ninodes; i++)
 	{
 		if(inodes[i].type == 0 && imrk[i] > 0)
@@ -309,6 +287,26 @@ int main(int argc, char* argv[]) {
 		{
 			fprintf(stderr, "ERROR: inode marked use but not found in a directory.\n");
 			return 1;	
+		}
+	}
+
+	for(i = mindatablock; i < maxblock; i++)
+	{
+		int addr = addrsinuse[i];
+		int bmpresult = readbitmap(i, ninodes, bitmap);
+		if(addr ^ bmpresult)
+		{
+			if(bmpresult == 1)
+			{
+				fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
+				return 1;
+			}
+			if(addr == 1)
+			{
+				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
+				return 1;
+			}
+
 		}
 	}
 
