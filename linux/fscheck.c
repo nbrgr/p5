@@ -7,6 +7,11 @@
 #include <fcntl.h>
 #include <errno.h>
 
+char getbit(char byte, int position)
+{
+	return ((byte >> position) & 0x01); 
+}
+
 int main(int argc, char* argv[]) {
 	int fs;
 	int fsize;
@@ -24,6 +29,7 @@ int main(int argc, char* argv[]) {
 	struct dinode* rootnode;
 	int maxblock;
 	int mindatablock;
+	char* blocksinuse;
 
 	if(argc != 2)
 	{
@@ -57,6 +63,7 @@ int main(int argc, char* argv[]) {
 
 	blocks = (struct block*)map; // Converts our mapping into an array of blocks;
 	maxblock = fsize / BSIZE; // This should be the total number of blocks / when indexing all iterators should be below this value.
+	blocksinuse = (char*)malloc(maxblock);
 
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
 	inodes = (struct dinode*)(&blocks[2]);
