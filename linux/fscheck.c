@@ -84,13 +84,13 @@ int main(int argc, char* argv[]) {
 		if((inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV) && (inodes[i].type != 0))
 		{
 			fprintf(stderr, "bad inode.\n");
-			return -1;
+			return 1;
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
 				if(inodes[i].addrs[j] == 0) {
 					fprintf(stderr, "bad address in inode.\n");
-					return -1;
+					return 1;
 				}
 			}
 		}
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
 	}
 	if(rootnode == NULL || rootnode != &inodes[1]) {
 		fprintf(stderr, "root directory does not exist.\n");
-		return -1;
+		return 1;
 	}
 	
 
