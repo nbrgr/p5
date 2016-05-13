@@ -117,7 +117,6 @@ int main(int argc, char* argv[]) {
 					}
 					else
 					{
-						printf("Addr: %d", inodes[i].addrs[j]);
 						addrsinuse[inodes[i].addrs[j]] = 1;
 					}
 				}
