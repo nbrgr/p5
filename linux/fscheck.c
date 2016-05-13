@@ -98,16 +98,14 @@ int main(int argc, char* argv[]) {
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
 
-	mindatablock = 3 + ninodeblocks + nbitmapblocks;
+	mindatablock = ninodeblocks + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
 
-	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
-	//printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
-	//printf("Root node type: %d\n", rootnode->type);
-        int i, j = 0, k = 0, found = 0;
-        //DIR* dir;
+    int i, j = 0, k = 0, found = 0;
+  
         
-        if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
+    if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR)
+    {
 		fprintf(stderr, "ERROR: root directory does not exist.\n");
 		return 1;
 	}
@@ -277,7 +275,7 @@ int main(int argc, char* argv[]) {
 				}
 			}*/
 
-/*
+
 	for(i = mindatablock; i < maxblock; i++)
 	{
 		int addr = addrsinuse[i];
@@ -296,7 +294,6 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-		*/
 
 	for(i = 0; i < ninodes; i++)
 	{
