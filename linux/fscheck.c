@@ -19,9 +19,11 @@ char readbitmap(int block, int ninodes, struct block* fs)
 {
 	int bitmap = BBLOCK(block, ninodes);
 	int offset = block % BPB;
-	int bitchunk = offset / 8;
+	int chunk = offset / 8;
 	int bitchunkoff = offset % 8;
-	char byte = (((struct bitmap)(fs[bitmap])).bitchunk[bitchunk]);
+	struct block* bitmapblock = &fs[bitmap];
+	struct bitmap* map = (struct bitmap*)bitmapblock;
+	char byte = map->bitchunk[chunk];
 	printf("Block to check: %d, Bitmap block: %d, Offset into block: %d, \nByte of that block: %d, Offset into that byte: %d, that byte: %x", block, bitmap, offset, bitchunk, bitchunkoff, byte);
 	return getbit(byte, bitchunkoff);
 }
