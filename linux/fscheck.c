@@ -99,8 +99,9 @@ int main(int argc, char* argv[]) {
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
+				fprintf(stderr, "min: %i, max: %i, addr: %i\n", mindatablock, maxblock, inodes[i].addrs[j]);
 				if(((inodes[i].addrs[j] < mindatablock) || inodes[i].addrs[j] >= maxblock) && inodes[i].addrs[j] != 0) {
-					fprintf(stderr, "min: %i, max: %i, addr: %i\n", mindatablock, maxblock, inodes[i].addrs[j]);
+					
 					fprintf(stderr, "ERROR: bad address in inode.\n");
 					//printf("bad address\n");
 					return 1;
@@ -110,6 +111,7 @@ int main(int argc, char* argv[]) {
 				{
 					for(j = 0; j < NINDIRECT; j++)
 					{
+						fprintf(stderr, "indirect min: %i, max: %i, addr: %i\n", mindatablock, maxblock, inodes[i].addrs[j]);
 						struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[i].addrs[NDIRECT]]);
 						if(indiraddrs->addrs[j] < mindatablock || indiraddrs->addrs[j] >= maxblock) {
 							fprintf(stderr, "ERROR: bad address in inode.\n");
