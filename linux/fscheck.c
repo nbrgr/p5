@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
         
 	for(i = 0; i < ninodes; i++)
 	{
-		//fprintf(stderr, "inode type: %i\n", inodes[i].type);
+		fprintf(stderr, "inode type: %i\n", inodes[i].type);
 		if(&inodes[i] != NULL && (inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV))
 		{
 			fprintf(stderr, "ERROR: bad inode.\n");
