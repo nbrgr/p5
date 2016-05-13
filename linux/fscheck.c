@@ -6,12 +6,6 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 
-int checkdir(DIR dir) {
-	
-	
-	return 0;
-}
-
 int main(int argc, char* argv[]) {
 	int fs;
 	int fsize;
@@ -82,6 +76,7 @@ int main(int argc, char* argv[]) {
 	printf("Root node type: %d\n", rootnode->type);
         int i, j;
         uint curr;
+        DIR* dir;
         
         
 	for(i = 0; i < ninodes; i++)
@@ -93,15 +88,19 @@ int main(int argc, char* argv[]) {
 		}
 		if((inodes[i] == T_DIR) || (inodes[i] == T_FILE) || (inodes[i] == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
-				if(inodes[i].addrs[j] != 0 && ) {
+				if(inodes[i].addrs[j] != 0) {
+					dir = inodes[i].addrs[j];
 					fprintf(stderr, "bad address in inode.\n");
 				}
 			}
 		}
 		if((inodes[i] == T_DIR) {
-			if(checkdir(inodes[i] != 0){
-				fprintf(stderr, "directory not properly formatted.\n");
+			for(j = 0; j < NDIRECT; j++) {
+				if(inodes[i].addrs[j] == 0) {
+					
+				}
 			}
+			fprintf(stderr, "directory not properly formatted.\n");
 		}
 		
 		
