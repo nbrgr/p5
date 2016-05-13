@@ -92,13 +92,13 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
+			fprintf(stderr, "min: %i, max: %i, addr: %i\n", mindatablock, maxblock, inodes[i].addrs[j]);
 			for(j = 0; j < NDIRECT; j++) {
 				if((inodes[i].addrs[j] < mindatablock) || inodes[i].addrs[j] >= maxblock) {
 					fprintf(stderr, "ERROR: bad address in inode.\n");
 					//printf("bad address\n");
 					return 1;
 				}
-				
 			}
 			if(inodes[i].addrs[NDIRECT])
 				{
