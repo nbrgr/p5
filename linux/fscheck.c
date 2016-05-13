@@ -72,47 +72,46 @@ int main(int argc, char* argv[]) {
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
-	
-	startdata = BSIZE * (1 + 1 + ninodeblocks + nbitmapblocks);
 
 	mindatablock = 1 + ninodeblocks + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
 
-	printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
-	printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
-	printf("Root node type: %d\n", rootnode->type);
+	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
+	//printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
+	//printf("Root node type: %d\n", rootnode->type);
         int i, j;
         //DIR* dir;
         
 	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
 	{
-		fprintf(stderr, "inode type: %d\n", inodes[i].type);
+		//fprintf(stderr, "inode type: %d\n", inodes[i].type);
 		if((inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV))
 		{
 			fprintf(stderr, "ERROR: bad inode.\n");
-			printf("bad inode.\n");
+			//printf("bad inode.\n");
 			return 1;
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
 				if((inodes[i].addrs[j] < mindatablock) || inodes[i].addrs[j] >= maxblock) {
 					fprintf(stderr, "ERROR: bad address in inode.\n");
-					printf("bad address\n");
+					//printf("bad address\n");
 					return 1;
 				}
-				if(inodes[i].addrs[NDIRECT])
+				
+			}
+			if(inodes[i].addrs[NDIRECT])
 				{
 					for(j = 0; j < NINDIRECT; j++)
 					{
 						struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[i].addrs[NDIRECT]]);
 						if(indiraddrs->addrs[j] < mindatablock || indiraddrs->addrs[j] >= maxblock) {
 							fprintf(stderr, "ERROR: bad address in inode.\n");
-							printf("bad address\n");
+							//printf("bad address\n");
 							return 1;
 						}
 					}
 				}
-			}
 		}
 		if(inodes[i].type == T_DIR) {
 			for(j = 0; j < NDIRECT; j++) {
