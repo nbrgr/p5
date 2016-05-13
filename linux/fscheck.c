@@ -87,13 +87,27 @@ int main(int argc, char* argv[]) {
 		if((inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV))
 		{
 			fprintf(stderr, "ERROR: bad inode.\n");
+			printf("bad inode.\n");
 			return 1;
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
 				if((inodes[i].addrs[j] < mindatablock) || inodes[i].addrs[j] >= maxblock) {
 					fprintf(stderr, "ERROR: bad address in inode.\n");
+					printf("bad address\n");
 					return 1;
+				}
+				if(inodes[i].addrs[NDIRECT])
+				{
+					for(j = 0; j < NINDIRECT; j++)
+					{
+						struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[i].addres[NDIRECT]]);
+						if( indiraddrs[j] < mindatablock || indiraddrs[j] >= maxblock) {
+							fprintf(stderr, "ERROR: bad address in inode.\n");
+							printf("bad address\n");
+							return 1;
+						}
+					}
 				}
 			}
 		}

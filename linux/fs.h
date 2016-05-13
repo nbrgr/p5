@@ -60,7 +60,9 @@ struct dirent {
   char name[DIRSIZ];
 };
 
-
+struct indirect {
+  uint addrs[128];
+};
 
 
 struct block {
