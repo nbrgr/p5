@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 	struct dinode* rootnode;
 	int maxblock;
 	int mindatablock;
-	char* blocksinuse;
+	char* addrsinuse;
 
 	if(argc != 2)
 	{
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 
 	blocks = (struct block*)map; // Converts our mapping into an array of blocks;
 	maxblock = fsize / BSIZE; // This should be the total number of blocks / when indexing all iterators should be below this value.
-	blocksinuse = (char*)malloc(maxblock);
+	addrsinuse = (char*)malloc(maxblock);
 
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
 	inodes = (struct dinode*)(&blocks[2]);
@@ -105,6 +105,18 @@ int main(int argc, char* argv[]) {
 					fprintf(stderr, "ERROR: bad address in inode.\n");
 					//printf("bad address\n");
 					return 1;
+				}
+				else 
+				{
+					if (addrsinuse[j] != 0)
+					{
+						fprintf(stderr, "ERROR: address used more than once.");
+						return 1;
+					}
+					else
+					{
+						addrsinuse[j] = 1;
+					}
 				}
 			}
 			if(inodes[i].addrs[NDIRECT])
