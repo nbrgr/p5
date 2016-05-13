@@ -210,8 +210,8 @@ int main(int argc, char* argv[]) {
 					struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[toparent->inum].addrs[NDIRECT]]);
 					for(j = 0; j < NINDIRECT; j++) {
 						for(k = 0; k < DIRENTS; k++) {
-							if(strlen( ((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].name) > 0) {
-								index = ((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].inum;
+							if(strlen( ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name) > 0) {
+								index = ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum;
 							}
 						}
 					}
