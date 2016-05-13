@@ -253,7 +253,8 @@ int main(int argc, char* argv[]) {
 	for(i = 1; i < ninodes && inodes[i].type == T_DIR; i++)
 	{
 		if(inodes[i].type == T_DIR)
-				for(j = 0; j < NDIRECT; j++) {
+		{
+			for(j = 0; j < NDIRECT; j++) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
 					{
@@ -289,7 +290,6 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-
 			/*else {
 				int index = 0;
 				for(j = 0; j < NDIRECT; j++) {
