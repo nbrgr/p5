@@ -239,6 +239,11 @@ int main(int argc, char* argv[]) {
 			}*/
 		}
 	}
+	
+	if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
+		fprintf(stderr, "ERROR: root directory does not exist.\n");
+		return 1;
+	}
 /*
 	for(i = mindatablock; i < maxblock; i++)
 	{
@@ -272,11 +277,6 @@ int main(int argc, char* argv[]) {
 			fprintf(stderr, "ERROR: inode marked use but not found in a directory.\n");
 			return 1;	
 		}
-	}
-
-	if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
-		fprintf(stderr, "ERROR: root directory does not exist.\n");
-		return 1;
 	}
 	
 
