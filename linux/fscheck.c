@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
 	char* addrsinuse;
 	char* imrk;
 	char* dironce;
-	int dircnt = 0;
+
 
 	if(argc != 2)
 	{
@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
         
-	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
+	for(i = 1; i < ninodes && inodes[i].type != 0; i++)
 	{
 		//fprintf(stderr, "inode type: %d\n", inodes[i].type);
 		if((inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV))
@@ -171,8 +171,8 @@ int main(int argc, char* argv[]) {
 					}
 				}
 		}
-		if(inodes[i].type == T_DIR) {
-			dircnt++;
+		if(inodes[i].type == T_DIR)
+		{
 			found = 0;
 			struct dirent* toparent = NULL;
 			for(j = 0; j < NDIRECT; j++) {
@@ -248,13 +248,12 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	dironce = (char*)malloc(dircnt);
-	bzero(dironce, dircnt);
-	for(i = 1; i < ninodes && inodes[i].type != 0; i++)
+	dironce = (char*)malloc(ninodes);
+	bzero(dironce, ninodes);
+	for(i = 1; i < ninodes && inodes[i].type == T_DIR; i++)
 	{
-		if(inodes[i].type == T_DIR) {
-			dircnt++;
-			for(j = 0; j < NDIRECT; j++) {
+		if(inodes[i].type == T_DIR)
+				for(j = 0; j < NDIRECT; j++) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
 					{
