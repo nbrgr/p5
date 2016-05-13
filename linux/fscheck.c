@@ -110,15 +110,15 @@ int main(int argc, char* argv[]) {
 				}
 				else 
 				{
-					if (addrsinuse[j] != 0)
+					if (addrsinuse[inodes[i].addrs[j]] != 0)
 					{
 						fprintf(stderr, "ERROR: address used more than once.");
 						return 1;
 					}
 					else
 					{
-						printf("Addr:")
-						addrsinuse[j] = 1;
+						printf("Addr: %d", inodes[i].addrs[j]);
+						addrsinuse[inodes[i].addrs[j]] = 1;
 					}
 				}
 			}
