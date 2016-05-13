@@ -42,6 +42,7 @@ int main(int argc, char* argv[]) {
 	int maxblock;
 	int mindatablock;
 	char* addrsinuse;
+	char* imrk;
 
 	if(argc != 2)
 	{
@@ -84,6 +85,8 @@ int main(int argc, char* argv[]) {
 
         
 	ninodes = superblock->ninodes; // Gets the number of inodes in the system;
+	imrk = (char *)malloc(ninodes);
+	bzero(imrk, ninodes);
 
 	ninodeblocks = ninodes / IPB; // Computes the number of inode blocks there are;
 	bitmaps = BBLOCK(0, ninodes); // Finds the first block number of the bitmaps 
@@ -166,6 +169,13 @@ int main(int argc, char* argv[]) {
 			struct dirent* toparent = NULL;
 			for(j = 0; j < NDIRECT; j++) {
 				for(k = 0; k < DIRENTS; k++) {
+					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
+					{
+						if(imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] != 1)
+						{
+							imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] = 1;
+						}
+					}
 					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
 						found++;
 				        }
@@ -179,6 +189,13 @@ int main(int argc, char* argv[]) {
 				struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[i].addrs[NDIRECT]]);
 				for(j = 0; j < NINDIRECT; j++) {
 					for(k = 0; k < DIRENTS; k++) {
+						if((((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum) != 0)
+						{
+							if(imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] != 1)
+							{
+								imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] = 1;
+							}
+						}
 						if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, ".") == 0) {
 							found++;
 				        	}
@@ -242,6 +259,20 @@ int main(int argc, char* argv[]) {
 		}
 	}
 		*/
+
+	for(i = 0; i < ninodes; i++)
+	{
+		if(inodes[i].type == 0 && imrk[i] == 1)
+		{
+			fprintf(stderr, "ERROR: inode referred to in directory but marked free.\n");
+			return 1;
+		}
+		if((inodes[i].type == T_DEV || inodes[i].type == T_DIR || inodes[i].type == T_FILE) && imrk[i] == 0)
+		{
+			fprintf(stderr, "ERROR: inode marked use but not found in a directory.\n");
+			return 1;	
+		}
+	}
 
 	if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
 		fprintf(stderr, "ERROR: root directory does not exist.\n");
