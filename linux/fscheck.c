@@ -199,7 +199,7 @@ int main(int argc, char* argv[]) {
 			}
 			else {
 				
-				if(&inodes[i] != inodes[toparent->inum]) {
+				if(&inodes[i] != &inodes[toparent->inum]) {
 					fprintf(stderr, "ERROR: parent directory mismatch.\n");
 					return 1;
 				}
