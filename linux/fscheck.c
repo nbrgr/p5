@@ -77,11 +77,16 @@ int main(int argc, char* argv[]) {
         int i;
 	for(i = 0; i < ninodes; i++)
 	{
-		if((inodes[i].type != T_DIR) || (inodes[i].type != T_FILE) || (inodes[i].type != T_DEV) || (inodes[i].type != 0))
+		if((inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV) && (inodes[i].type != 0))
 		{
 			fprintf(stderr, "bad inode.");
 			return -1;
 		}
+		if((inodes[i] == T_DIR) || (inodes[i] == T_FILE) || (inodes[i] == T_DEV)) {
+			
+		}
+		
+		
 	}
 
     return 0;
