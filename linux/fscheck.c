@@ -177,10 +177,7 @@ int main(int argc, char* argv[]) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
 					{
-						//if(imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] != 1)
-						//{
-							imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum]++;
-						//}
+						imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum]++;
 					}
 					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
 						found++;
@@ -197,10 +194,7 @@ int main(int argc, char* argv[]) {
 					for(k = 0; k < DIRENTS; k++) {
 						if((((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum) != 0)
 						{
-							//if(imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] != 1)
-							//{
-								imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum]++;
-							//}
+							imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum]++;
 						}
 						if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, ".") == 0) {
 							found++;
@@ -306,8 +300,8 @@ int main(int argc, char* argv[]) {
 		printf("%ith time --> links: %i, counted: %i\n", i, inodes[i].nlink, imrk[i]);
 		if(inodes[i].nlink != imrk[i]) {
 			
-			fprintf(stderr, "ERROR: bad reference count for file.\n");
-			return 1;
+			//fprintf(stderr, "ERROR: bad reference count for file.\n");
+			//return 1;
 		}
 		
 		if((inodes[i].type == T_DEV || inodes[i].type == T_DIR || inodes[i].type == T_FILE) && imrk[i] == 0)
