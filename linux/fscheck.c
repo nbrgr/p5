@@ -192,11 +192,10 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		
-	for(int i = 0; i < maxblock; i++)
+	for(int i = mindatablock; i < maxblock; i++)
 	{
 		int addr = addrsinuse[i];
 		int bitmap = readbitmap(i, ninodes, blocks);
-		printf("Addr: %d, Bitmap: %d", addr, bitmap);
 		if(addr ^ bitmap)
 		{
 			if(addr == 0)
