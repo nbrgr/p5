@@ -305,12 +305,14 @@ int main(int argc, char* argv[]) {
 			fprintf(stderr, "ERROR: inode referred to in directory but marked free.\n");
 			return 1;
 		}
+		/*
 		//printf("%ith time --> links: %i, counted: %i\n", i, inodes[i].nlink, imrk[i]);
 		if(inodes[i].nlink != imrk[i]) {
 			
 			fprintf(stderr, "ERROR: bad reference count for file.\n");
 			return 1;
 		}
+		*/
 		if((inodes[i].type == T_DEV || inodes[i].type == T_DIR || inodes[i].type == T_FILE) && imrk[i] == 0)
 		{
 			fprintf(stderr, "ERROR: inode marked use but not found in a directory.\n");
