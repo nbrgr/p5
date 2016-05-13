@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 	struct block* datablocks;
 	struct superblock* superblock;
 	struct dinode* inodes;
-	struct block* bitmap;
+	struct bitmap* bitmap;
 	int ninodes;
 	int ninodeblocks;
 	int bitmaps;
@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
 
 	ninodeblocks = ninodes / IPB; // Computes the number of inode blocks there are;
 	bitmaps = BBLOCK(0, ninodes); // Finds the first block number of the bitmaps 
-	struct bitmap* bitmap = (struct bitmap*)&blocks[bitmaps];
+	bitmap = (struct bitmap*)&blocks[bitmaps];
 
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
@@ -273,15 +273,15 @@ int main(int argc, char* argv[]) {
 	for(i = mindatablock; i < maxblock; i++)
 	{
 		int addr = addrsinuse[i];
-		int bitmap = readbitmap(i, ninodes, bitmap);
-		if(addr ^ bitmap)
+		int bmpresult = readbitmap(i, ninodes, bitmap);
+		if(addr ^ bmpresult)
 		{
 			if(addr == 1)
 			{
 				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
 				return 1;
 			}
-			if(bitmap == 1)
+			if(bmpresult == 1)
 			{
 				fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
 				return 1;
