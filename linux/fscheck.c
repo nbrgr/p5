@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 	printf("Root node type: %d\n", rootnode->type);
         int i, j;
         uint curr;
-        DIR* dir;
+        //DIR* dir;
         
         
 	for(i = 0; i < ninodes; i++)
@@ -86,7 +86,7 @@ int main(int argc, char* argv[]) {
 			fprintf(stderr, "bad inode.\n");
 			return -1;
 		}
-		if((inodes[i] == T_DIR) || (inodes[i] == T_FILE) || (inodes[i] == T_DEV)) {
+		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
 				if(inodes[i].addrs[j] != 0) {
 					dir = inodes[i].addrs[j];
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
 				}
 			}
 		}
-		if((inodes[i] == T_DIR) {
+		if((inodes[i].type == T_DIR) {
 			for(j = 0; j < NDIRECT; j++) {
 				if(inodes[i].addrs[j] == 0) {
 					
