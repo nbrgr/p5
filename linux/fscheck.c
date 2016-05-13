@@ -21,6 +21,7 @@ int main(int argc, char* argv[]) {
 	int bitmaps;
 	int nbitmapblocks;
 	int ndatablocks;
+	int startdata;
 	struct dinode* rootnode;
 	int maxblock;
 	int mindatablock;
@@ -71,6 +72,8 @@ int main(int argc, char* argv[]) {
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
+	
+	startdata = BSIZE * (1 + 1 + ninodeblocks + nbitmapblocks);
 
 	mindatablock = 1 + ninodes + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
@@ -92,6 +95,7 @@ int main(int argc, char* argv[]) {
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
+<<<<<<< HEAD
 				if((inodes[i].addrs[j] < mindatablock) || inodes[i].addrs[j] >= maxblock) {
 					fprintf(stderr, "ERROR: bad address in inode.\n");
 					printf("bad address\n");
@@ -109,6 +113,12 @@ int main(int argc, char* argv[]) {
 						}
 					}
 				}
+=======
+				if(!(inodes[i].addrs[j] >= startdata && inodes[i].addrs[j] < fsize)) {
+					fprintf(stderr, "ERROR: bad address in inode.\n");
+					return 1;
+				}
+>>>>>>> 0402fa7c18fd0f33b027b4b5e00922228fad8529
 			}
 		}
 		if(inodes[i].type == T_DIR) {
