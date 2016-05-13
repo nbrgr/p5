@@ -14,7 +14,7 @@ char readbitmap(int block, int ninodes, struct block* fs)
 {
 	struct bitmap* bp = (struct bitmap*)&fs[BBLOCK(block, ninodes)];
 	int bi, m;
-  	bi = b % BPB;
+  	bi = block % BPB;
   	m = 1 << (bi % 8);
   	return bp->bitchunk[bi/8] & m;
 }
