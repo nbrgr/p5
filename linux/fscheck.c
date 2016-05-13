@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 	struct stat fstats;
 	struct block* blocks;
 	struct superblock* superblock;
-	struct dinodes* inodes;
+	struct dinode* inodes;
 	int ninodes;
 	int ninodeblocks;
 	int bitmaps;
