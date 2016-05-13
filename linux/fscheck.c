@@ -80,13 +80,13 @@ int main(int argc, char* argv[]) {
 		//fprintf(stderr, "inode type: %i\n", inodes[i].type);
 		if(&inodes[i] != NULL && (inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV))
 		{
-			fprintf(stderr, "bad inode.\n");
+			fprintf(stderr, "ERROR: bad inode.\n");
 			return 1;
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
 				if(inodes[i].addrs[j] == 0) {
-					fprintf(stderr, "bad address in inode.\n");
+					fprintf(stderr, "ERROR: bad address in inode.\n");
 					return 1;
 				}
 			}
@@ -97,13 +97,13 @@ int main(int argc, char* argv[]) {
 					
 				}
 			}
-			fprintf(stderr, "directory not properly formatted.\n");
+			fprintf(stderr, "ERROR: directory not properly formatted.\n");
 		}
 		
 		
 	}
 	if(rootnode == NULL || rootnode != &inodes[1]) {
-		fprintf(stderr, "root directory does not exist.\n");
+		fprintf(stderr, "ERROR: root directory does not exist.\n");
 		return 1;
 	}
 	
