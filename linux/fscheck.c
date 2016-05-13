@@ -19,7 +19,7 @@ char readbitmap(int block, int ninodes, struct block* fs)
 	int offset = block % BPB;
 	int bitchunk = offset / 8;
 	int bitchunkoff = offset % 8;
-	char byte = ((char *)&(fs[bitmap]))[bitchunk];
+	char byte = ((struct bitmap*)&fs[bitmap])[bitchunk];
 	return getbit(byte, bitchunkoff);
 }
 
@@ -113,9 +113,11 @@ int main(int argc, char* argv[]) {
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
+				//fprintf(stderr, "min: %i, max: %i, addr: %i\n", mindatablock, maxblock, inodes[i].addrs[j]);
 				if(((inodes[i].addrs[j] < mindatablock) || inodes[i].addrs[j] >= maxblock) && inodes[i].addrs[j] != 0) {
 					
 					fprintf(stderr, "ERROR: bad address in inode.\n");
+					//printf("bad address\n");
 					return 1;
 				}
 				else if(inodes[i].addrs[j] != 0) 
@@ -160,10 +162,11 @@ int main(int argc, char* argv[]) {
 		}
 		if(inodes[i].type == T_DIR) {
 			for(j = 0; j < NDIRECT; j++) {
-				if(strcmp((&inodes[i].addrs[j]).name, ".") == 0) {
+				
+				if(strcmp(blocks[inodes[i].addrs[j]]->name, ".") == 0) {
 					found++;
 				}
-				else if(strcmp((&inodes[i].addrs[j]).name, "..") == 0) {
+				else if(strcmp(blocks[inodes[i].addrs[j]]->name, "..") == 0) {
 					found++;
 				}
 			}
