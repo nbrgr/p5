@@ -10,9 +10,9 @@
 #include <strings.h>
 #include <errno.h>
 
-char readbitmap(int block, int ninodes, struct block* fs)
+char readbitmap(int block, int ninodes, struct bitmap* bmp)
 {
-	struct bitmap* bp = (struct bitmap*)&fs[BBLOCK(block, ninodes)];
+	struct bitmap* bp = bmp;
 	int bi, m;
   	bi = block % BPB;
   	m = 1 << (bi % 8);
@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
 
 	ninodeblocks = ninodes / IPB; // Computes the number of inode blocks there are;
 	bitmaps = BBLOCK(0, ninodes); // Finds the first block number of the bitmaps 
-	bitmap = &blocks[bitmaps];
+	struct bitmap* bitmap = (struct bitmap*)&blocks[bitmaps];
 
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
@@ -273,7 +273,7 @@ int main(int argc, char* argv[]) {
 	for(i = mindatablock; i < maxblock; i++)
 	{
 		int addr = addrsinuse[i];
-		int bitmap = readbitmap(i, ninodes, blocks);
+		int bitmap = readbitmap(i, ninodes, bitmap);
 		if(addr ^ bitmap)
 		{
 			if(addr == 1)
