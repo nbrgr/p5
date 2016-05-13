@@ -196,10 +196,10 @@ int main(int argc, char* argv[]) {
 					for(k = 0; k < DIRENTS; k++) {
 						if((((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum) != 0)
 						{
-							if(imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] != 1)
-							{
-								imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] = 1;
-							}
+							//if(imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] != 1)
+							//{
+								imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum]++;
+							//}
 						}
 						if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, ".") == 0) {
 							found++;
@@ -267,10 +267,13 @@ int main(int argc, char* argv[]) {
 
 	for(i = 0; i < ninodes; i++)
 	{
-		if(inodes[i].type == 0 && imrk[i] == 1)
+		if(inodes[i].type == 0 && imrk[i] > 0)
 		{
 			fprintf(stderr, "ERROR: inode referred to in directory but marked free.\n");
 			return 1;
+		}
+		if(inodes[i].nlink != imrk[i]) {
+			fprintf(stderr, "ERROR: bad reference count for file.\n");
 		}
 		if((inodes[i].type == T_DEV || inodes[i].type == T_DIR || inodes[i].type == T_FILE) && imrk[i] == 0)
 		{
