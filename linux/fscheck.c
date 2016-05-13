@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
 		
 		
 	}
-	if(rootnode == NULL || rootnode != inodes[1]) {
+	if(rootnode == NULL || rootnode != &inodes[1]) {
 		fprintf(stderr, "root directory does not exist.\n");
 	}
 	
