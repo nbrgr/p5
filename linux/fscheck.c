@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
 	int bitmaps;
 	int nbitmapblocks;
 	int ndatablocks;
-	int startdata;
 	struct dinode* rootnode;
 	int maxblock;
 	int mindatablock;
@@ -79,7 +78,7 @@ int main(int argc, char* argv[]) {
 	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
 	//printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
 	//printf("Root node type: %d\n", rootnode->type);
-        int i, j;
+        int i, j = 0;
         //DIR* dir;
         
 	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
