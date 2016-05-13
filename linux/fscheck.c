@@ -13,7 +13,7 @@ char getbit(char byte, int position)
 	return ((byte >> position) & 0x01); 
 }
 
-char readbitmap(int block, int ninodes, struct blocks* fs)
+char readbitmap(int block, int ninodes, struct block* fs)
 {
 	int bitmap = BBLOCK(block, ninodes);
 	int offset = block % BPB;
@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
 				if(((inodes[i].addrs[j] < mindatablock) || inodes[i].addrs[j] >= maxblock) && inodes[i].addrs[j] != 0) {
 					
 					fprintf(stderr, "ERROR: bad address in inode.\n");
-					//printf("bad address\n");
+					printf("Reading bitmap for addr: %d, Result: %d", inodes[i].addrs[j], readbitmap(inodes[i].addrs[j], ninodes, blocks));
 					return 1;
 				}
 				else if(inodes[i].addrs[j] != 0) 
