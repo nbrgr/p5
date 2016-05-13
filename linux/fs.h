@@ -55,6 +55,8 @@ struct superblock {
 #define NINDIRECT (BSIZE / sizeof(uint))
 #define MAXFILE (NDIRECT + NINDIRECT)
 
+#define DIRENTS (BSIZE / sizeof(struct dirent))
+
 struct dirent {
   unsigned short inum;
   char name[DIRSIZ];
@@ -62,6 +64,10 @@ struct dirent {
 
 struct indirect {
   uint addrs[NINDIRECT];
+};
+
+struct bitmap {
+  char bitchunk[BSIZE];
 };
 
 
