@@ -177,6 +177,24 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		
+	for(int i = 0; i < maxblock; i++)
+	{
+		int addr = addrsinuse[i];
+		int bitmap = readbitmap(i, ninodes, blocks);
+		if(addr != bitmap)
+		{
+			if(addr == 0)
+			{
+				fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
+				return 1;
+			}
+			if(bitmap == 0)
+			{
+				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
+				return 1;
+			}
+		}
+	}
 		
 	}
 	if(rootnode == NULL || rootnode != &inodes[1] || rootnode->type != T_DIR) {
