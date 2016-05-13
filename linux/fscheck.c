@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
 
-	mindatablock = 1 + ninodeblocks + nbitmapblocks;
+	mindatablock = 3 + ninodeblocks + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
 
 	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
@@ -207,7 +207,6 @@ int main(int argc, char* argv[]) {
 	{
 		int addr = addrsinuse[i];
 		int bitmap = readbitmap(i, ninodes, blocks);
-		printf("Addrread: %d, Addr: %d, Bitmap: %d\n", i, addr, bitmap);
 		if(addr ^ bitmap)
 		{
 			if(addr == 0)
