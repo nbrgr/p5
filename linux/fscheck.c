@@ -177,10 +177,10 @@ int main(int argc, char* argv[]) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
 					{
-						if(imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] == 1 && 
-							inodes[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum].type == T_DIR);
+						if(imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] == 1 && 
+							inodes[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum].type == T_DIR);
 							else {
-								imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum]++;
+								imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum]++;
 							}
 					}
 					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
