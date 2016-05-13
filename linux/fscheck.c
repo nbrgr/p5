@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
 	for(i = 1; i < ninodes + 1; i++)
 	{
 		fprintf(stderr, "inode type: %d\n", inodes[i].type);
-		if(&inodes[i] != 0 && (inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV))
+		if(&inodes[i].type != 0 && (inodes[i].type != T_DIR) && (inodes[i].type != T_FILE) && (inodes[i].type != T_DEV))
 		{
 			fprintf(stderr, "ERROR: bad inode.\n");
 			return 1;
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 					
 				}
 			}
-			fprintf(stderr, "ERROR: directory not properly formatted.\n");
+			//fprintf(stderr, "ERROR: directory not properly formatted.\n");
 		}
 		
 		
