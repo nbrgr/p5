@@ -101,6 +101,10 @@ int main(int argc, char* argv[]) {
 	//printf("Root node type: %d\n", rootnode->type);
         int i, j = 0;
         //DIR* dir;
+
+    printf("Reading bitmap for random locations:\n");
+    printf("Location 955: %d\n", readbitmap(955, ninodes, blocks));
+    printf("Location 32: %d\n", readbitmap(32, ninodes, blocks));
         
 	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
 	{
@@ -113,11 +117,10 @@ int main(int argc, char* argv[]) {
 		}
 		if((inodes[i].type == T_DIR) || (inodes[i].type == T_FILE) || (inodes[i].type == T_DEV)) {
 			for(j = 0; j < NDIRECT; j++) {
-				//fprintf(stderr, "min: %i, max: %i, addr: %i\n", mindatablock, maxblock, inodes[i].addrs[j]);
+				printf("Reading bitmap for addr: %d, Result: %d\n", inodes[i].addrs[j], readbitmap(inodes[i].addrs[j], ninodes, blocks));
 				if(((inodes[i].addrs[j] < mindatablock) || inodes[i].addrs[j] >= maxblock) && inodes[i].addrs[j] != 0) {
 					
 					fprintf(stderr, "ERROR: bad address in inode.\n");
-					printf("Reading bitmap for addr: %d, Result: %d", inodes[i].addrs[j], readbitmap(inodes[i].addrs[j], ninodes, blocks));
 					return 1;
 				}
 				else if(inodes[i].addrs[j] != 0) 
