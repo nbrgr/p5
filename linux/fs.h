@@ -61,7 +61,7 @@ struct dirent {
 };
 
 struct indirect {
-  uint addrs[128];
+  uint addrs[NINDIRECT];
 };
 
 
