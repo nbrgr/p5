@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 	if(argc != 2)
 	{
 		fprintf(stderr, "Incorrect number of arguments\n");
-		return -1;
+		return 1;
 	}
 
 	fs = open(argv[1], O_RDONLY);
@@ -36,13 +36,13 @@ int main(int argc, char* argv[]) {
 	{
 		fprintf(stderr, "error num: %i\n", errno);
 		fprintf(stderr, "Failed to open file\n");
-		return -1;
+		return 1;
 	}
 
 	if(fstat(fs, &fstats) != 0)
 	{
 		fprintf(stderr, "Failed to retrieve stats\n");
-		return -1;
+		return 1;
 	}
 
 	fsize = fstats.st_size;
@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
 	if(map == MAP_FAILED)
 	{
 		fprintf(stderr, "Failed to map\n");
-		return -1;
+		return 1;
 	}
 
 	blocks = (struct block*)map; // Converts our mapping into an array of blocks;
