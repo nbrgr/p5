@@ -216,6 +216,9 @@ int main(int argc, char* argv[]) {
 						}
 					}
 				}
+				printf("toparent->inum: i%\n", toparent->inum);
+				printf("i: %i\n", i);
+				printf("index: %i\n", index);
 				if(&inodes[i] != &inodes[index]) {
 					fprintf(stderr, "ERROR: parent directory mismatch.\n");
 					return 1;
