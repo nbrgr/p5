@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	fs = open(argv[1], O_RDWR);
-	printf("File location: %s\n", *argv[1]);
+	printf("File location: %s\n", argv[1]);
 
 	if(fs == -1)
 	{
