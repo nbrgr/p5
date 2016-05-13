@@ -123,7 +123,7 @@ int main(int argc, char* argv[]) {
 		
 		
 	}
-	if(rootnode == NULL || rootnode != &inodes[1] ) {
+	if(rootnode == NULL || rootnode != &inodes[1] || rootnode.type != T_DIR) {
 		fprintf(stderr, "ERROR: root directory does not exist.\n");
 		return 1;
 	}
