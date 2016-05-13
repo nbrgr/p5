@@ -1,3 +1,4 @@
+
 #include "fs.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +21,7 @@ char readbitmap(int block, int ninodes, struct block* fs)
 	int offset = block % BPB;
 	int bitchunk = offset / 8;
 	int bitchunkoff = offset % 8;
-	char byte = ((struct bitmap*)&(fs[bitmap]))->bitchunk[bitchunk];
+	char byte = ((struct bitmap)(fs[bitmap])).bitchunk[bitchunk];
 	printf("Block to check: %d, Bitmap block: %d, Offset into block: %d, \nByte of that block: %d, Offset into that byte: %d, that byte: %x", block, bitmap, offset, bitchunk, bitchunkoff, byte);
 	return getbit(byte, bitchunkoff);
 }
@@ -183,9 +184,9 @@ int main(int argc, char* argv[]) {
 						if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, ".") == 0) {
 							found++;
 				        	}
-						else if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, "..") == 0) {
+						else if(strcmp( ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, "..") == 0) {
 							found++;
-							toparent = ((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k];
+							toparent = ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k];
 						}
 					}
 				}
