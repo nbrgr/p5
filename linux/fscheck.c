@@ -130,6 +130,18 @@ int main(int argc, char* argv[]) {
 							//printf("bad address\n");
 							return 1;
 						}
+						else 
+						{
+							if (addrsinuse[j] != 0)
+							{
+								fprintf(stderr, "ERROR: address used more than once.");
+								return 1;
+							}
+							else
+							{
+								addrsinuse[j] = 1;
+							}
+						}
 					}
 				}
 		}
