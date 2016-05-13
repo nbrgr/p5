@@ -307,7 +307,11 @@ int main(int argc, char* argv[]) {
 		
 		//printf("%ith time --> links: %i, counted: %i\n", i, inodes[i].nlink, imrk[i]);
 		if(inodes[i].nlink != imrk[i]) {
-			
+			if(inodes[i].type == T_DIR)
+			{
+				fprintf("ERROR: directory appears more than once in file system.\n");
+				return 1;
+			}			
 			fprintf(stderr, "ERROR: bad reference count for file.\n");
 			return 1;
 		}
@@ -321,7 +325,7 @@ int main(int argc, char* argv[]) {
 
 	dironce = (char*)malloc(ninodes);
 	bzero(dironce, ninodes);
-	for(i = 1; i < ninodes && inodes[i].type == T_DIR; i++)
+	/*for(i = 1; i < ninodes && inodes[i].type == T_DIR; i++)
 	{
 		if(inodes[i].type == T_DIR)
 		{
@@ -360,7 +364,7 @@ int main(int argc, char* argv[]) {
 				}
 			}
 		}
-	}
+	}*/
 	
 
     return 0;
