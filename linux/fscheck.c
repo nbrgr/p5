@@ -196,6 +196,7 @@ int main(int argc, char* argv[]) {
 	{
 		int addr = addrsinuse[i];
 		int bitmap = readbitmap(i, ninodes, blocks);
+		printf("Addr: %d, Bitmap: %d", addr, bitmap);
 		if(addr ^ bitmap)
 		{
 			if(addr == 0)
