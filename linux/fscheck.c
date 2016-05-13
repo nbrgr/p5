@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <fcntl.h>
+#include <string.h>
 #include <errno.h>
 
 char getbit(char byte, int position)
@@ -116,6 +117,7 @@ int main(int argc, char* argv[]) {
 					}
 					else
 					{
+						printf("Addr:")
 						addrsinuse[j] = 1;
 					}
 				}
