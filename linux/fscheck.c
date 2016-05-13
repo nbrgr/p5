@@ -276,16 +276,17 @@ int main(int argc, char* argv[]) {
 		int bmpresult = readbitmap(i, ninodes, bitmap);
 		if(addr ^ bmpresult)
 		{
-			if(addr == 1)
-			{
-				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
-				return 1;
-			}
 			if(bmpresult == 1)
 			{
 				fprintf(stderr, "ERROR: bitmap marks block in use but it is not in use.\n");
 				return 1;
 			}
+			if(addr == 1)
+			{
+				fprintf(stderr, "ERROR: address used by inode but marked free in bitmap.\n");
+				return 1;
+			}
+
 		}
 	}
 
