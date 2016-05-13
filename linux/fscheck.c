@@ -72,8 +72,6 @@ int main(int argc, char* argv[]) {
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
-	
-	startdata = BSIZE * (1 + 1 + ninodeblocks + nbitmapblocks);
 
 	mindatablock = 1 + ninodeblocks + nbitmapblocks;
 	datablocks = &blocks[mindatablock];
@@ -100,7 +98,9 @@ int main(int argc, char* argv[]) {
 					printf("bad address\n");
 					return 1;
 				}
-				if(inodes[i].addrs[NDIRECT])
+				
+			}
+			if(inodes[i].addrs[NDIRECT])
 				{
 					for(j = 0; j < NINDIRECT; j++)
 					{
@@ -112,7 +112,6 @@ int main(int argc, char* argv[]) {
 						}
 					}
 				}
-			}
 		}
 		if(inodes[i].type == T_DIR) {
 			for(j = 0; j < NDIRECT; j++) {
