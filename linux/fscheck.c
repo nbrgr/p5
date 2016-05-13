@@ -1,4 +1,3 @@
-
 #include "fs.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +15,11 @@ char readbitmap(int block, int ninodes, struct block* fs)
 	int bi, m;
   	bi = block % BPB;
   	m = 1 << (bi % 8);
-  	return bp->bitchunk[bi/8] & m;
+  	if(bp->bitchunk[bi/8] & m)
+  	{
+  		return 1;
+  	}
+  	return 0;
 }
 
 int main(int argc, char* argv[]) {
