@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
 	int nbitmapblocks;
 	int ndatablocks;
 	struct dinode* rootnode;
+	int maxblock;
 
 	if(argc != 2)
 	{
@@ -53,6 +54,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	blocks = (struct block*)map; // Converts our mapping into an array of blocks;
+	maxblock = fsize / BSIZE; // This should be the total number of blocks / when indexing all iterators should be below this value.
 
         fprintf(stderr, "converted map to block\n");
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
@@ -72,6 +74,14 @@ int main(int argc, char* argv[]) {
 	printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
 	printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
 	printf("Root node type: %d\n", rootnode->type);
+
+	for(int i = 0; i < ninodes; i++)
+	{
+		if(inodes[i]->type != T_DIR || inodes->type != T_FILE || inodes->type != T_DEV)
+		{
+			fprintf(stderr, "bad inode.");
+		}
+	}
 
     return 0;
 }
