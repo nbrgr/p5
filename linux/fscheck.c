@@ -104,6 +104,7 @@ int main(int argc, char* argv[]) {
 				{
 					for(j = 0; j < NINDIRECT; j++)
 					{
+						fprintf(stderr, "indirect min: %i, max: %i, addr: %i\n", mindatablock, maxblock, inodes[i].addrs[j]);
 						struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[i].addrs[NDIRECT]]);
 						if(indiraddrs->addrs[j] < mindatablock || indiraddrs->addrs[j] >= maxblock) {
 							fprintf(stderr, "ERROR: bad address in inode.\n");
