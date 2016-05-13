@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
 	//printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
 	//printf("Root node type: %d\n", rootnode->type);
-        int i, j = 0;
+        int i, j = 0, found = 0;
         //DIR* dir;
         
 	for(i = 1; i < ninodes + 1 && inodes[i].type != 0; i++)
@@ -156,16 +156,22 @@ int main(int argc, char* argv[]) {
 								addrsinuse[indiraddrs->addrs[j]] = 1;
 							}
 						}
+						
 					}
 				}
 		}
 		if(inodes[i].type == T_DIR) {
 			for(j = 0; j < NDIRECT; j++) {
-				if(inodes[i].addrs[j] == 0) {
-					
+				if(strcmp(inodes[i].addrs[j]->name, ".") == 0) {
+					found++;
+				}
+				else if(strcmp(inodes[i].addrs[j]->name, "..") == 0) {
+					found++;
 				}
 			}
-			//fprintf(stderr, "ERROR: directory not properly formatted.\n");
+			if (found != 2) {
+				fprintf(stderr, "ERROR: directory not properly formatted.\n");
+			}
 		}
 		
 		
