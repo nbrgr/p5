@@ -30,12 +30,10 @@ int main(int argc, char* argv[]) {
 	}
 
 	fs = open(argv[1], O_RDONLY);
-	printf("File location: %s\n", argv[1]);
 
 	if(fs == -1)
 	{
-		fprintf(stderr, "error num: %i\n", errno);
-		fprintf(stderr, "Failed to open file\n");
+		fprintf(stderr, "image not found.\n");
 		return 1;
 	}
 
@@ -58,7 +56,6 @@ int main(int argc, char* argv[]) {
 	blocks = (struct block*)map; // Converts our mapping into an array of blocks;
 	maxblock = fsize / BSIZE; // This should be the total number of blocks / when indexing all iterators should be below this value.
 
-        fprintf(stderr, "converted map to block\n");
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
 	inodes = (struct dinode*)(&blocks[2]);
 	rootnode = &inodes[1];
@@ -66,16 +63,15 @@ int main(int argc, char* argv[]) {
 	ninodes = superblock->ninodes; // Gets the number of inodes in the system;
 
 	ninodeblocks = ninodes / IPB; // Computes the number of inode blocks there are;
-        fprintf(stderr, "computed number of inode blocks\n");
 	bitmaps = BBLOCK(0, ninodes); // Finds the first block number of the bitmaps 
 
 	ndatablocks = superblock->nblocks; // Gets the number of datablocks there are
 
 	nbitmapblocks = (ndatablocks / (BSIZE * BPB)) + 1; // Computes the number of bit map blocks there are.
 
-	printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
-	printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
-	printf("Root node type: %d\n", rootnode->type);
+	//printf("Number of inodes: %d, Number of inode blocks: %d\n", ninodes, ninodeblocks);
+	//printf("Location of bitmaps: %d, Number of data blocks: %d, Number of bitmap blocks: %d\n", bitmaps, ndatablocks, nbitmapblocks);
+	//printf("Root node type: %d\n", rootnode->type);
         int i, j;
         //DIR* dir;
         
