@@ -64,6 +64,7 @@ int main(int argc, char* argv[]) {
 	blocks = (struct block*)map; // Converts our mapping into an array of blocks;
 	maxblock = fsize / BSIZE; // This should be the total number of blocks / when indexing all iterators should be below this value.
 	addrsinuse = (char*)malloc(maxblock);
+	bzero(addrsinuse, maxblock);
 
 	superblock = (struct superblock*)(&blocks[1]); // Gets a pointer to the superblock;
 	inodes = (struct dinode*)(&blocks[2]);
