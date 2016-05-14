@@ -43,6 +43,7 @@ int main(int argc, char* argv[]) {
 	int mindatablock;
 	char* addrsinuse;
 	char* imrk;
+	char* link;
 	char* dironce;
 
 
@@ -88,7 +89,9 @@ int main(int argc, char* argv[]) {
         
 	ninodes = superblock->ninodes; // Gets the number of inodes in the system;
 	imrk = (char *)malloc(ninodes);
+	link = (char* )malloc(ninodes);
 	bzero(imrk, ninodes);
+	bzero(link, ninodes);
 
 	ninodeblocks = ninodes / IPB; // Computes the number of inode blocks there are;
 	bitmaps = BBLOCK(0, ninodes); // Finds the first block number of the bitmaps 
@@ -177,10 +180,9 @@ int main(int argc, char* argv[]) {
 				for(k = 0; k < DIRENTS; k++) {
 					if(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum != 0)
 					{
-						if(imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] == 1 && 
-							inodes[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum].type == T_DIR);
+						if(link[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum] == 1);
 							else {
-								imrk[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum]++;
+								link[((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].inum]++;
 							}
 					}
 					if(strcmp(((struct dirent*)&(blocks[inodes[i].addrs[j]]))[k].name, ".") == 0) {
@@ -198,10 +200,9 @@ int main(int argc, char* argv[]) {
 					for(k = 0; k < DIRENTS; k++) {
 						if((((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum) != 0)
 						{
-							if(imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] == 1 && 
-							inodes[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum].type == T_DIR);
+							if(link[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum] == 1);
 							else {
-								imrk[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum]++;
+								link[((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum]++;
 							}
 						}
 						if(strcmp(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name, ".") == 0) {
@@ -222,7 +223,8 @@ int main(int argc, char* argv[]) {
 				int index = 0;
 				for(j = 0; j < NDIRECT; j++) {
 					for(k = 0; k < DIRENTS; k++) {
-						if(strlen(((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].name) > 0) {
+						if(((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].inum != 0) {
+							printf("index: %i\n", index);
 							index = ((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].inum;
 						}
 					}
@@ -231,51 +233,24 @@ int main(int argc, char* argv[]) {
 					struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[toparent->inum].addrs[NDIRECT]]);
 					for(j = 0; j < NINDIRECT; j++) {
 						for(k = 0; k < DIRENTS; k++) {
-							if(strlen( ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name) > 0) {
+							if(((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum != 0) {
+								printf("index: %i\n", index);
 								index = ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum;
 							}
 						}
 					}
 				}
-				//printf("toparent->inum: %i\n", toparent->inum);
-				//printf("i: %i\n", i);
-				//printf("index: %i\n", index);
-				if(&inodes[i] != &inodes[toparent->inum]) {
+				printf("toparent->inum: %i\n", toparent->inum);
+				printf("toparent->name: %s\n", toparent->name);
+				printf("i: %i\n", i);
+				printf("index: %i\n", index);
+				if(i != index) {
 					fprintf(stderr, "ERROR: parent directory mismatch.\n");
 					return 1;
 				}
 			}*/
 		}
 	}
-
-
-			/*else {
-				int index = 0;
-				for(j = 0; j < NDIRECT; j++) {
-					for(k = 0; k < DIRENTS; k++) {
-						if(strlen(((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].name) > 0) {
-							index = ((struct dirent*)&(blocks[inodes[toparent->inum].addrs[j]]))[k].inum;
-						}
-					}
-				}
-				if(inodes[toparent->inum].addrs[NDIRECT]) {
-					struct indirect* indiraddrs = (struct indirect*)&(blocks[inodes[toparent->inum].addrs[NDIRECT]]);
-					for(j = 0; j < NINDIRECT; j++) {
-						for(k = 0; k < DIRENTS; k++) {
-							if(strlen( ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].name) > 0) {
-								index = ((struct dirent*)&(blocks[indiraddrs->addrs[j]]))[k].inum;
-							}
-						}
-					}
-				}
-				//printf("toparent->inum: %i\n", toparent->inum);
-				//printf("i: %i\n", i);
-				//printf("index: %i\n", index);
-				if(&inodes[i] != &inodes[toparent->inum]) {
-					fprintf(stderr, "ERROR: parent directory mismatch.\n");
-					return 1;
-				}
-			}*/
 
 
 	for(i = mindatablock; i < maxblock; i++)
@@ -299,7 +274,7 @@ int main(int argc, char* argv[]) {
 
 	for(i = 0; i < ninodes; i++)
 	{
-		if(inodes[i].type == 0 && imrk[i] > 0)
+		if(inodes[i].type == 0 && imrk[i] == 1)
 		{
 			fprintf(stderr, "ERROR: inode referred to in directory but marked free.\n");
 			return 1;
